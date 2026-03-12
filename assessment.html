@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fluency Assessment | AI Fluency</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #ffffff;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --gray-text: #555;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .logo { font-weight: 700; font-size: 17px; text-decoration: none; color: var(--black); }
+
+    /* ── PROGRESS ── */
+    .progress-bar-wrap {
+      height: 3px;
+      background: var(--gray-mid);
+      width: 100%;
+    }
+
+    .progress-bar {
+      height: 3px;
+      background: var(--black);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    .progress-label {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-text);
+      padding: 14px 8%;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .survey-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 50px 24px 80px;
+    }
+
+    /* ── STEP ── */
+    .step {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .step.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+    }
+
+    .step h2 {
+      font-size: clamp(22px, 3.5vw, 30px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .step .sub {
+      font-size: 16px;
+      color: var(--gray-text);
+      margin-bottom: 32px;
+    }
+
+    /* ── RADIO OPTIONS ── */
+    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 32px; }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 18px;
+      border: 2px solid var(--gray-mid);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: none;
+    }
+
+    .option:hover { border-color: #999; }
+
+    .option.selected {
+      border-color: var(--black);
+      background: var(--gray-light);
+    }
+
+    .option input[type="radio"],
+    .option input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--black);
+      cursor: pointer;
+    }
+
+    .option-text { font-size: 16px; line-height: 1.4; }
+    .option-text .tag {
+      display: block;
+      font-size: 12px;
+      color: var(--gray-text);
+      margin-top: 3px;
+    }
+
+    /* ── CHECKBOX GRID ── */
+    .checkbox-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    @media (max-width: 520px) { .checkbox-grid { grid-template-columns: 1fr; } }
+
+    /* ── TEXT INPUTS ── */
+    textarea, input[type="text"], input[type="email"] {
+      width: 100%;
+      font-family: var(--font);
+      font-size: 16px;
+      padding: 14px 16px;
+      border: 2px solid var(--gray-mid);
+      border-radius: 8px;
+      resize: vertical;
+      outline: none;
+      margin-bottom: 32px;
+      line-height: 1.5;
+      transition: border-color 0.15s;
+    }
+
+    textarea:focus, input[type="text"]:focus, input[type="email"]:focus {
+      border-color: var(--black);
+    }
+
+    .field-group { margin-bottom: 20px; }
+    .field-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; }
+    .field-group input { margin-bottom: 0; }
+
+    /* ── BUTTONS ── */
+    .btn-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      text-decoration: none;
+    }
+
+    .btn:hover { opacity: 0.8; }
+    .btn:disabled { opacity: 0.4; cursor: default; }
+
+    .btn-back {
+      background: transparent;
+      color: var(--gray-text);
+      padding: 14px 0;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-back:hover { color: var(--black); }
+
+    .skip-link {
+      font-size: 14px;
+      color: var(--gray-text);
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-family: var(--font);
+    }
+
+    /* ── WELCOME ── */
+    .welcome h1 {
+      font-size: clamp(30px, 5vw, 46px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .welcome p {
+      font-size: 18px;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+      max-width: 540px;
+    }
+
+    .welcome .meta {
+      font-size: 14px;
+      color: var(--gray-text);
+      margin-top: 16px;
+    }
+
+    /* ── RESULTS ── */
+    .results { display: none; }
+    .results.active { display: block; }
+
+    .level-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      background: var(--black);
+      color: var(--white);
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 20px;
+    }
+
+    .results h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .results .tagline {
+      font-size: 20px;
+      color: var(--gray-text);
+      font-style: italic;
+      margin-bottom: 28px;
+    }
+
+    .results .description {
+      font-size: 17px;
+      line-height: 1.7;
+      margin-bottom: 16px;
+      color: var(--gray-text);
+    }
+
+    .results .description strong { color: var(--black); }
+
+    .results-divider {
+      border: none;
+      border-top: 1px solid var(--gray-mid);
+      margin: 36px 0;
+    }
+
+    .level-ladder {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 36px;
+    }
+
+    .ladder-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      font-size: 15px;
+    }
+
+    .ladder-item:last-child { border-bottom: none; }
+
+    .ladder-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      background: var(--gray-light);
+      color: var(--gray-text);
+      border: 1px solid var(--gray-mid);
+    }
+
+    .ladder-item.current .ladder-num {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .ladder-item.current { font-weight: 700; }
+    .ladder-item.above { color: var(--gray-text); }
+    .ladder-item.current .ladder-label::after { content: " ← you are here"; font-size: 12px; color: var(--gray-text); font-weight: 400; }
+
+    .results-cta-box {
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      border-radius: 10px;
+      padding: 32px;
+      text-align: center;
+    }
+
+    .results-cta-box h3 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 12px;
+    }
+
+    .results-cta-box p {
+      font-size: 16px;
+      color: var(--gray-text);
+      margin-bottom: 24px;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .results-cta-box .small {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--gray-text);
+    }
+
+    /* ── HIDDEN ── */
+    .hidden { display: none !important; }
+
+    /* ── ERROR ── */
+    .error-msg {
+      color: #c0392b;
+      font-size: 14px;
+      margin-top: -20px;
+      margin-bottom: 20px;
+    }
+
+    /* ── SUBMITTING ── */
+    .submitting-overlay {
+      display: none;
+      text-align: center;
+      padding: 60px 0;
+      color: var(--gray-text);
+      font-size: 17px;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      header { padding: 16px 5%; }
+
+      .survey-wrap { padding: 36px 18px 80px; }
+
+      /* Bigger tap targets */
+      .option {
+        padding: 14px 16px;
+        min-height: 52px;
+      }
+
+      .option input[type="radio"],
+      .option input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-top: 0;
+      }
+
+      /* Checkboxes in 1 column on small screens */
+      .checkbox-grid { grid-template-columns: 1fr; }
+
+      /* Inputs: 16px prevents iOS auto-zoom */
+      textarea, input[type="text"], input[type="email"] {
+        font-size: 16px;
+      }
+
+      /* Button row stacks on mobile */
+      .btn-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .btn { text-align: center; }
+      .btn-back { text-align: center; }
+
+      /* Results page */
+      .results h2 { font-size: 26px; }
+      .results-cta-box { padding: 24px 20px; }
+      .results-cta-box .btn { display: block; text-align: center; }
+
+      /* Ladder items readable on small screens */
+      .ladder-item { font-size: 14px; gap: 10px; }
+      .ladder-num { width: 24px; height: 24px; font-size: 11px; }
+
+      /* Sticky next button */
+      .btn-row {
+        position: sticky;
+        bottom: 0;
+        background: rgba(255,255,255,0.97);
+        padding: 14px 0 18px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .btn-row .btn { flex: 1; }
+      .btn-row .btn-back { flex: 0 0 auto; }
+      .btn-row .skip-link { flex: 0 0 auto; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">AI Fluency</a>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+<div class="progress-label" id="progressLabel"></div>
+
+<div class="survey-wrap">
+
+  <!-- ══════════════════════════════════════
+       WELCOME
+  ══════════════════════════════════════ -->
+  <div class="step active welcome" id="step-welcome">
+    <h1>Where are you on your AI journey?</h1>
+    <p>
+      Answer honestly — no wrong answers, no judgement.
+      This takes about 5 minutes.
+    </p>
+    <p>
+      At the end you'll see your <strong>AI Fluency Level</strong> and a clear picture of
+      what's possible from where you are right now.
+    </p>
+    <div class="btn-row" style="margin-top: 32px;">
+      <button class="btn" onclick="startSurvey()">Let's go &rarr;</button>
+    </div>
+    <p class="meta">5–7 minutes &nbsp;·&nbsp; No account needed &nbsp;·&nbsp; Results shown immediately</p>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q1 — ROLE
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-1">
+    <div class="step-label">About you</div>
+    <h2>What's your role?</h2>
+    <p class="sub">We'll tailor everything to your specific world.</p>
+
+    <div class="options" id="q1-options">
+      <label class="option">
+        <input type="radio" name="q1" value="Lawyer / Legal">
+        <span class="option-text">Lawyer / Legal</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Consultant / Advisory">
+        <span class="option-text">Consultant / Advisory</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Chief of Staff / Executive Support">
+        <span class="option-text">Chief of Staff / Executive Support</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Marketing / Brand / Content">
+        <span class="option-text">Marketing / Brand / Content</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Strategy / Project Management">
+        <span class="option-text">Strategy / Project Management</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Finance / Accounting">
+        <span class="option-text">Finance / Accounting</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Coach / Facilitator">
+        <span class="option-text">Coach / Facilitator</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Founder / Operator">
+        <span class="option-text">Founder / Operator</span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Other">
+        <span class="option-text">Something else</span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(1)" id="btn-1" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q2 — FREQUENCY
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-2">
+    <div class="step-label">Your baseline</div>
+    <h2>How often are you using AI tools right now?</h2>
+    <p class="sub">Be honest. This is just between us.</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q2" value="0">
+        <span class="option-text">
+          Never, or I've barely started
+          <span class="tag">I keep meaning to but haven't really gotten going</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q2" value="1">
+        <span class="option-text">
+          Occasionally — when I remember
+          <span class="tag">A few times a month, if that</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q2" value="2">
+        <span class="option-text">
+          A few times a week
+          <span class="tag">Regularly, for specific tasks</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q2" value="3">
+        <span class="option-text">
+          Every day — it's part of my workflow
+          <span class="tag">I'd notice if I couldn't use it</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q2" value="4">
+        <span class="option-text">
+          Multiple times a day, across different parts of my work
+          <span class="tag">It's genuinely changed how I operate</span>
+        </span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(2)" id="btn-2" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(2)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q3 — USAGE PATTERN
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-3">
+    <div class="step-label">Your baseline</div>
+    <h2>When you use AI, what does it usually look like?</h2>
+    <p class="sub">Pick the one that's most honest — even if it's a bit humbling.</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q3" value="0">
+        <span class="option-text">
+          I type a question, like a smarter Google
+          <span class="tag">Quick lookups, basic questions</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q3" value="1">
+        <span class="option-text">
+          I ask it to write or rewrite something for me
+          <span class="tag">Emails, drafts, summaries</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q3" value="2">
+        <span class="option-text">
+          Real back-and-forth — I refine and iterate on the output
+          <span class="tag">Multiple rounds, getting to something genuinely good</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q3" value="3">
+        <span class="option-text">
+          I work inside Projects or setups that already know my context
+          <span class="tag">It knows who I am and what I'm working on</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q3" value="4">
+        <span class="option-text">
+          I've built workflows or tools that run with minimal input from me
+          <span class="tag">Systems that compound — not just one-off tasks</span>
+        </span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(3)" id="btn-3" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(3)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q4 — TOOLS SET UP
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-4">
+    <div class="step-label">Your setup</div>
+    <h2>What have you actually tried or set up?</h2>
+    <p class="sub">Check everything you've genuinely used — not just heard of.</p>
+
+    <div class="checkbox-grid">
+      <label class="option">
+        <input type="checkbox" name="q4" value="chatgpt">
+        <span class="option-text">ChatGPT (free or Plus)</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="claude">
+        <span class="option-text">Claude (Anthropic)</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="gemini">
+        <span class="option-text">Gemini / Google AI</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="copilot">
+        <span class="option-text">Copilot (Microsoft)</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="perplexity">
+        <span class="option-text">Perplexity</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="projects" data-weight="2">
+        <span class="option-text">Claude / ChatGPT Projects</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="custom-instructions" data-weight="2">
+        <span class="option-text">Custom instructions or system prompts</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="doc-upload" data-weight="2">
+        <span class="option-text">Uploading documents for analysis</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="custom-gpt" data-weight="3">
+        <span class="option-text">Custom GPT or Claude Skill</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="claude-code" data-weight="4">
+        <span class="option-text">Claude Code / Cursor / Windsurf</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="automation" data-weight="3">
+        <span class="option-text">Zapier, Make, or similar automations</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="api" data-weight="4">
+        <span class="option-text">API access — connected AI yourself</span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(4)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(4)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q5 — USE CASES
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-5">
+    <div class="step-label">Your baseline</div>
+    <h2>What have you used AI for in the last month?</h2>
+    <p class="sub">Check everything that actually happened.</p>
+
+    <div class="checkbox-grid">
+      <label class="option">
+        <input type="checkbox" name="q5" value="drafting">
+        <span class="option-text">Drafting or editing writing</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="summarising">
+        <span class="option-text">Summarising documents</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="research">
+        <span class="option-text">Researching a topic</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="brainstorming">
+        <span class="option-text">Brainstorming ideas</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="meeting-prep" data-weight="2">
+        <span class="option-text">Preparing for a meeting</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="analysis" data-weight="2">
+        <span class="option-text">Analysing data or documents</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="feedback" data-weight="2">
+        <span class="option-text">Getting feedback on my thinking</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="pressure-test" data-weight="3">
+        <span class="option-text">Pressure-testing a decision or argument</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="building" data-weight="3">
+        <span class="option-text">Building a template, workflow, or tool</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="teaching" data-weight="3">
+        <span class="option-text">Teaching or sharing with others</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q5" value="nothing">
+        <span class="option-text">Not much / nothing in the last month</span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(5)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(5)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q6 — SELF PERCEPTION
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-6">
+    <div class="step-label">Your baseline</div>
+    <h2>Finish this sentence honestly.</h2>
+    <p class="sub">"When I think about where AI is going and how I'm keeping up…"</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q6" value="0">
+        <span class="option-text">
+          I feel anxious. I know I should be doing more.
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q6" value="1">
+        <span class="option-text">
+          I feel behind — but not in a panic. I just haven't prioritised it yet.
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q6" value="2">
+        <span class="option-text">
+          I feel okay. I'm using it but I know I'm leaving value on the table.
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q6" value="3">
+        <span class="option-text">
+          I feel pretty good. I've figured out a lot, though there's always more.
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q6" value="4">
+        <span class="option-text">
+          I feel confident and ahead of most people in my field.
+        </span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(6)" id="btn-6" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(6)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q7 — SLOW / REPETITIVE TASK
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-7">
+    <div class="step-label">Your work</div>
+    <h2>What's one thing you do regularly that feels slow, repetitive, or like it should be easier?</h2>
+    <p class="sub">Be specific — this is often what we'll work on in your first session.</p>
+
+    <textarea name="q7" id="q7" rows="4" placeholder="e.g. Writing first drafts of client reports, summarising long emails, preparing for meetings…"></textarea>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(7)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(7)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q8 — HARDEST THINKING TASK
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-8">
+    <div class="step-label">Your work</div>
+    <h2>What's the most mentally demanding part of your job?</h2>
+    <p class="sub">The thing that requires your best thinking — where you can't afford to be off your game.</p>
+
+    <textarea name="q8" id="q8" rows="4" placeholder="e.g. Structuring complex arguments, stakeholder management, strategic decisions under pressure…"></textarea>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(8)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(8)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q9 — PRIOR IMPRESSIVE RESULTS
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-9">
+    <div class="step-label">Your experience</div>
+    <h2>Have you had any AI results that genuinely impressed you?</h2>
+
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q9" value="no">
+        <span class="option-text">
+          No — I haven't seen anything that really wowed me yet
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q9" value="once">
+        <span class="option-text">
+          Once or twice, but I couldn't reproduce it reliably
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q9" value="few">
+        <span class="option-text">
+          Yes — a few specific things have been genuinely useful
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q9" value="regularly">
+        <span class="option-text">
+          Yes, regularly — it's had moments that changed how I think about my work
+        </span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(9)" id="btn-9" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(9)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q10 — GOALS
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-10">
+    <div class="step-label">Your goals</div>
+    <h2>What would make you feel like AI is really working for you?</h2>
+    <p class="sub">Pick up to 3.</p>
+
+    <div class="options" id="q10-options">
+      <label class="option">
+        <input type="checkbox" name="q10" value="save-time">
+        <span class="option-text">Saving 2–3 hours a week on things I currently do manually</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="better-outputs">
+        <span class="option-text">Getting better outputs — writing, thinking, decisions — than I do alone</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="confident">
+        <span class="option-text">Feeling confident and ahead, not anxious and behind</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="field-leader">
+        <span class="option-text">Being the person in my field who actually knows how to use this</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="build-systems">
+        <span class="option-text">Building something that keeps working without me doing it every time</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="teach-others">
+        <span class="option-text">Teaching others — sharing what I know in a way that's useful</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="future-ready">
+        <span class="option-text">Understanding what's coming well enough to prepare for it</span>
+      </label>
+    </div>
+    <div class="error-msg hidden" id="q10-error">Pick up to 3.</div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(10)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(10)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q11 — BLOCKERS
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-11">
+    <div class="step-label">Your blockers</div>
+    <h2>What's held you back from going further with AI so far?</h2>
+    <p class="sub">Check all that apply.</p>
+
+    <div class="options">
+      <label class="option">
+        <input type="checkbox" name="q11" value="too-much-noise">
+        <span class="option-text">Too many tools, too much noise — I don't know where to start</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="underwhelming">
+        <span class="option-text">I've tried things and the results weren't impressive</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="no-time">
+        <span class="option-text">I don't have time to experiment and figure it out</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="not-relevant">
+        <span class="option-text">I'm not sure what's relevant to my specific role</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="worried-wrong">
+        <span class="option-text">I worry about using it badly or getting things wrong</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="not-tech">
+        <span class="option-text">I don't want to become a "tech person" — I just want it to work</span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="not-priority">
+        <span class="option-text">Honestly, I haven't made it a priority yet</span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(11)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(11)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q12 — ONE YEAR VISION
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-12">
+    <div class="step-label">Your goals</div>
+    <h2>One year from now — what does your ideal relationship with AI look like?</h2>
+    <p class="sub">Big picture. No wrong answers. Just be honest.</p>
+
+    <textarea name="q12" id="q12" rows="4" placeholder="e.g. I want to feel ahead of the curve in my field, use AI every day without thinking about it, and have built systems that make me significantly more effective…"></textarea>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(12)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(12)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q13 — CONTACT (hidden if ref link)
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-13">
+    <div class="step-label">Almost there</div>
+    <h2>Where should we send your results?</h2>
+    <p class="sub">We'll email you a summary — including your roadmap and recommended next step.</p>
+
+    <div class="field-group" id="name-field">
+      <label for="contact-name">Your name</label>
+      <input type="text" id="contact-name" placeholder="First name is fine">
+    </div>
+
+    <div class="field-group" id="email-field">
+      <label for="contact-email">Your email</label>
+      <input type="email" id="contact-email" placeholder="you@example.com">
+    </div>
+
+    <div class="error-msg hidden" id="contact-error">Please enter your name and a valid email.</div>
+
+    <div class="btn-row">
+      <button class="btn" onclick="submitSurvey()" id="btn-submit">See my results &rarr;</button>
+      <button class="btn-back" onclick="back(13)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       SUBMITTING
+  ══════════════════════════════════════ -->
+  <div class="submitting-overlay" id="submitting">
+    Calculating your level…
+  </div>
+
+  <!-- ══════════════════════════════════════
+       RESULTS
+  ══════════════════════════════════════ -->
+  <div class="results" id="results">
+
+    <div class="level-badge" id="result-badge"></div>
+    <h2 id="result-title"></h2>
+    <p class="tagline" id="result-tagline"></p>
+
+    <div class="description" id="result-description"></div>
+
+    <hr class="results-divider">
+
+    <p style="font-size:14px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gray-text);margin-bottom:16px;">The full ladder</p>
+
+    <div class="level-ladder" id="level-ladder"></div>
+
+    <hr class="results-divider">
+
+    <div class="results-cta-box">
+      <h3>Ready to move up?</h3>
+      <p>
+        Book an install session. We'll sit down together and build your AI setup
+        around your actual work — live, in the first 20 minutes.
+      </p>
+      <a class="btn" href="YOUR_CALENDLY_LINK" target="_blank">Book Your Install Session</a>
+      <p class="small">We'll read your assessment answers before you arrive.</p>
+    </div>
+
+  </div>
+
+</div><!-- /survey-wrap -->
+
+<script>
+// ══════════════════════════════════════
+// CONFIG — update these before going live
+// ══════════════════════════════════════
+const APPS_SCRIPT_URL = 'https://hook.eu1.make.com/wlsgs7k0bgl6djblgpk27s3m7jhsdaa0';
+const CALENDLY_URL    = 'YOUR_CALENDLY_LINK';
+
+// ══════════════════════════════════════
+// REFERRER LINK HANDLING
+// On load: check for ?r= param, decode, pre-fill contact fields
+// ══════════════════════════════════════
+let refData = {}; // { id, name, email }
+let referredByCode = ''; // referral code of whoever sent this person the link
+
+(function initRef() {
+  const params = new URLSearchParams(window.location.search);
+
+  // Outreach referrer link (?r=base64) — pre-fills name/email for known contacts
+  const r = params.get('r');
+  if (r) {
+    try {
+      refData = JSON.parse(atob(r));
+      if (refData.name) {
+        document.getElementById('contact-name').value = refData.name;
+        document.getElementById('name-field').classList.add('hidden');
+      }
+      if (refData.email) {
+        document.getElementById('contact-email').value = refData.email;
+        document.getElementById('email-field').classList.add('hidden');
+      }
+    } catch(e) { /* malformed param — ignore */ }
+  }
+
+  // Referral program link (?ref=CODE) — tracks who shared the link
+  const ref = params.get('ref');
+  if (ref) referredByCode = ref;
+})();
+
+// Stable referral code derived from email — same algorithm as Apps Script
+function generateRefCode(email) {
+  const cleaned = (email || '').toLowerCase().trim();
+  let hash = 0;
+  for (let i = 0; i < cleaned.length; i++) {
+    hash = ((hash << 5) - hash) + cleaned.charCodeAt(i);
+    hash |= 0;
+  }
+  return Math.abs(hash).toString(36).toUpperCase().substring(0, 8);
+}
+
+// ══════════════════════════════════════
+// STEP MANAGEMENT
+// ══════════════════════════════════════
+const TOTAL_STEPS = 13;
+let current = 0; // 0 = welcome
+
+function showStep(n) {
+  document.querySelectorAll('.step, .results, .submitting-overlay').forEach(el => {
+    el.classList.remove('active');
+    if (el.classList.contains('results')) el.style.display = '';
+  });
+
+  if (n === 0) {
+    document.getElementById('step-welcome').classList.add('active');
+    document.getElementById('progressLabel').textContent = '';
+    document.getElementById('progressBar').style.width = '0%';
+  } else {
+    const el = document.getElementById('step-' + n);
+    if (el) el.classList.add('active');
+    const pct = Math.round((n / TOTAL_STEPS) * 100);
+    document.getElementById('progressBar').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `Question ${n} of ${TOTAL_STEPS}`;
+  }
+
+  current = n;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function startSurvey() { showStep(1); }
+
+function next(from) {
+  // Validation per step
+  if (from === 10) {
+    const checked = document.querySelectorAll('input[name="q10"]:checked');
+    if (checked.length > 3) {
+      document.getElementById('q10-error').classList.remove('hidden');
+      return;
+    }
+    document.getElementById('q10-error').classList.add('hidden');
+  }
+  showStep(from + 1);
+}
+
+function back(from) { showStep(from - 1); }
+
+// ══════════════════════════════════════
+// AUTO-ADVANCE on radio select + enable buttons
+// ══════════════════════════════════════
+document.addEventListener('change', function(e) {
+  const input = e.target;
+
+  // Enable Next buttons for radio steps
+  const radioSteps = { q2: 'btn-2', q3: 'btn-3', q6: 'btn-6', q9: 'btn-9' };
+  if (input.type === 'radio') {
+    const btnId = radioSteps[input.name];
+    if (btnId) document.getElementById(btnId).disabled = false;
+    // Enable Q1
+    if (input.name === 'q1') document.getElementById('btn-1').disabled = false;
+  }
+
+  // Style selected options
+  if (input.type === 'radio') {
+    const group = input.name;
+    document.querySelectorAll(`input[name="${group}"]`).forEach(r => {
+      r.closest('.option').classList.remove('selected');
+    });
+    input.closest('.option').classList.add('selected');
+  }
+
+  if (input.type === 'checkbox') {
+    if (input.checked) {
+      input.closest('.option').classList.add('selected');
+    } else {
+      input.closest('.option').classList.remove('selected');
+    }
+  }
+});
+
+// ══════════════════════════════════════
+// SCORING
+// ══════════════════════════════════════
+function calculateScore() {
+  let score = 0;
+
+  // Q2 frequency (0–4)
+  const q2 = document.querySelector('input[name="q2"]:checked');
+  if (q2) score += parseInt(q2.value);
+
+  // Q3 usage pattern (0–4)
+  const q3 = document.querySelector('input[name="q3"]:checked');
+  if (q3) score += parseInt(q3.value);
+
+  // Q4 tools (weighted)
+  document.querySelectorAll('input[name="q4"]:checked').forEach(cb => {
+    const weight = parseInt(cb.getAttribute('data-weight') || '1');
+    score += weight;
+  });
+
+  // Q5 use cases (weighted)
+  document.querySelectorAll('input[name="q5"]:checked').forEach(cb => {
+    if (cb.value === 'nothing') return;
+    const weight = parseInt(cb.getAttribute('data-weight') || '1');
+    score += weight;
+  });
+
+  // Q6 self-perception (0–4)
+  const q6 = document.querySelector('input[name="q6"]:checked');
+  if (q6) score += parseInt(q6.value);
+
+  return score;
+}
+
+function scoreToLevel(score) {
+  if (score <= 4)  return 1;
+  if (score <= 9)  return 2;
+  if (score <= 15) return 3;
+  if (score <= 22) return 4;
+  if (score <= 30) return 5;
+  return 6;
+}
+
+// ══════════════════════════════════════
+// LEVEL DATA
+// ══════════════════════════════════════
+const levels = [
+  null, // placeholder for index 0
+  {
+    name: 'Level 1 — The Curious',
+    tagline: '"You know something\'s happening. You\'re right."',
+    description: `You're paying attention, and that matters more than it sounds.
+      Most people at this stage are stuck in a loop — <strong>reading about AI without touching it</strong>,
+      and falling further behind every month as a result.<br><br>
+      You've seen the headlines. You've heard people talking. You have a sense this is important.
+      What you haven't had yet is the right moment, the right guide, and a reason to start that feels real.<br><br>
+      <strong>The gap between Level 1 and Level 3 isn't months of learning. It's the right 60 minutes.</strong>`,
+    ladder: 'The Curious — paying attention, not yet started'
+  },
+  {
+    name: 'Level 2 — The Tourist',
+    tagline: '"You\'ve visited. You haven\'t moved in yet."',
+    description: `You've been to the country. You've taken a few photos.
+      But you're still checking into a hotel every time instead of having a home there.<br><br>
+      You've tried ChatGPT or Claude, asked it a few questions, got some okay results —
+      and then life got in the way. <strong>Every session starts from scratch.</strong>
+      It doesn't know who you are, what you do, or what you're working on.<br><br>
+      The tools you've already used are dramatically more powerful than you've experienced.
+      <strong>The issue isn't the tool — it's the setup.</strong>`,
+    ladder: 'The Tourist — visited, not yet living there'
+  },
+  {
+    name: 'Level 3 — The Regular',
+    tagline: '"You\'re in. You\'re just not in a system yet."',
+    description: `You're using AI and getting real value. You've seen enough to know this is legitimate.
+      But you're working harder than you need to.<br><br>
+      You open it several times a week. Results are good sometimes, frustrating others.
+      <strong>You're re-explaining yourself every session.</strong> You use AI as an assistant.
+      You haven't yet used it as a thinking partner.<br><br>
+      The jump from here to Level 4 isn't more tools — it's <strong>a better architecture</strong>.
+      A properly set-up AI that knows your role and your goals is a different animal entirely.`,
+    ladder: 'The Regular — using it, not yet systematised'
+  },
+  {
+    name: 'Level 4 — The Builder',
+    tagline: '"You\'ve built something real. Now let\'s make it compound."',
+    description: `You're in territory most professionals haven't reached.
+      You think in systems, not just tasks. You've got Projects, custom setups, saved prompts.
+      <strong>You occasionally show a colleague something and watch their jaw drop.</strong><br><br>
+      But you're probably still doing this manually, one task at a time.
+      You haven't yet used it for the hardest, most valuable parts of your work.
+      And there's a layer above — agents, deeper automation, genuine strategic partnership — that you've glimpsed but not yet reached.<br><br>
+      <strong>The ceiling you think exists isn't actually there.</strong>`,
+    ladder: 'The Builder — systems thinking, compounding value'
+  },
+  {
+    name: 'Level 5 — The Multiplier',
+    tagline: '"AI is woven into your best work. Now you\'re making others better too."',
+    description: `This is the target. Not "AI person" — <strong>the best version of you in your field,
+      with an unfair advantage.</strong><br><br>
+      AI is integrated into your actual job. You use it as a thinking partner: to pressure-test ideas,
+      prepare for hard conversations, see around corners.
+      Your setups are specific to your subject matter expertise.
+      People in your field come to you with AI questions.
+      <strong>You feel ahead — and that feeling is accurate.</strong><br><br>
+      The frontier is wide open from here. You're at the base of something much bigger.`,
+    ladder: 'The Multiplier — expert-level integration, others follow your lead'
+  },
+  {
+    name: 'Level 6 — The Native',
+    tagline: '"You\'re building the thing others are trying to catch up to."',
+    description: `You're at the frontier. You experiment the week new tools drop.
+      You have opinions about model capabilities and workflows that others quote.
+      You write, build, or teach about AI in a way that <strong>shapes how your field uses it</strong>.<br><br>
+      You're not just staying ahead — you're defining what ahead looks like.
+      (Tal Raviv, Lenny Rachitsky, Ben's Bites — this tier.)<br><br>
+      <strong>The best next move:</strong> find the person who's exactly where you were three years ago.
+      That's what we do here.`,
+    ladder: 'The Native — at the frontier, shaping how others use AI'
+  }
+];
+
+// ══════════════════════════════════════
+// RENDER RESULTS
+// ══════════════════════════════════════
+function renderResults(level) {
+  const data = levels[level];
+
+  document.getElementById('result-badge').textContent = `Level ${level}`;
+  document.getElementById('result-title').textContent = data.name;
+  document.getElementById('result-tagline').textContent = data.tagline;
+  document.getElementById('result-description').innerHTML = data.description;
+
+  // Ladder
+  const ladder = document.getElementById('level-ladder');
+  ladder.innerHTML = '';
+  for (let i = 6; i >= 1; i--) {
+    const item = document.createElement('div');
+    item.className = 'ladder-item' + (i === level ? ' current' : i > level ? ' above' : '');
+    item.innerHTML = `
+      <div class="ladder-num">${i}</div>
+      <div class="ladder-label">${levels[i].ladder}</div>
+    `;
+    ladder.appendChild(item);
+  }
+
+  // Update CTA link
+  document.querySelector('.results-cta-box .btn').href = CALENDLY_URL;
+
+  // Show results
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('results').classList.add('active');
+}
+
+// ══════════════════════════════════════
+// COLLECT ALL ANSWERS
+// ══════════════════════════════════════
+function collectAnswers() {
+  const get = (name) => {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '';
+  };
+  const getChecked = (name) => {
+    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+      .map(el => el.value).join(', ');
+  };
+
+  const email = document.getElementById('contact-email').value.trim();
+  const score = calculateScore();
+  const level = scoreToLevel(score);
+
+  return {
+    refId:          refData.id    || '',
+    name:           document.getElementById('contact-name').value.trim(),
+    email:          email,
+    role:           get('q1'),
+    frequency:      get('q2'),
+    usageStyle:     get('q3'),
+    toolsSetUp:     getChecked('q4'),
+    useCases:       getChecked('q5'),
+    selfPerception: get('q6'),
+    slowTask:       document.getElementById('q7').value.trim(),
+    hardTask:       document.getElementById('q8').value.trim(),
+    priorWins:      get('q9'),
+    goals:          getChecked('q10'),
+    blockers:       getChecked('q11'),
+    vision:         document.getElementById('q12').value.trim(),
+    score:          score,
+    level:          level,
+    levelName:      levels[level].name,
+    referralCode:   generateRefCode(email),
+    referredBy:     referredByCode,
+    submittedAt:    new Date().toISOString()
+  };
+}
+
+// ══════════════════════════════════════
+// SUBMIT
+// ══════════════════════════════════════
+async function submitSurvey() {
+  // Validate contact
+  const name  = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  if (!name || !emailOk) {
+    document.getElementById('contact-error').classList.remove('hidden');
+    return;
+  }
+  document.getElementById('contact-error').classList.add('hidden');
+
+  // Hide step, show submitting
+  document.getElementById('step-13').style.display = 'none';
+  document.getElementById('submitting').style.display = 'block';
+  document.getElementById('progressLabel').textContent = '';
+
+  const data = collectAnswers();
+
+  // Submit to Google Sheets via Apps Script
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' }
+    });
+  } catch(e) {
+    // Silent fail — still show results even if submission fails
+    console.warn('Submission error:', e);
+  }
+
+  // Redirect to results page — pass level, name, role, and their referral code
+  const params = new URLSearchParams({
+    level:   data.level,
+    name:    data.name          || '',
+    role:    data.role          || '',
+    refcode: data.referralCode  || '',
+  });
+  window.location.href = `results.html?${params.toString()}`;
+}
+</script>
+
+</body>
+</html>

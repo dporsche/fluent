@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your AI Fluency Level | AI Fluency</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #ffffff;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --gray-text: #555;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.65;
+      font-size: 18px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .logo { font-weight: 700; font-size: 17px; text-decoration: none; color: var(--black); }
+
+    .btn {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 26px;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.8; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--black);
+      border: 2px solid var(--black);
+    }
+
+    .btn-outline:hover { background: var(--black); color: var(--white); opacity: 1; }
+
+    /* ── HERO BAND ── */
+    .result-hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 70px 8%;
+      text-align: center;
+    }
+
+    .level-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      border: 1px solid #444;
+      color: #aaa;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .result-hero h1 {
+      font-size: clamp(30px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .result-hero .tagline {
+      font-size: clamp(17px, 2.2vw, 21px);
+      color: #999;
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 72px 8%;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .container-wide {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      font-size: clamp(24px, 3.5vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 17px;
+      color: var(--gray-text);
+      margin-bottom: 18px;
+    }
+
+    p strong { color: var(--black); }
+
+    /* ── WHERE YOU ARE ── */
+    .where-you-are {
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .bullets {
+      margin: 24px 0 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .bullet {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 16px;
+    }
+
+    .bullet-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--black);
+      flex-shrink: 0;
+      margin-top: 7px;
+    }
+
+    .bullet-dot.empty {
+      background: transparent;
+      border: 2px solid var(--gray-mid);
+    }
+
+    .bullet-text { color: var(--gray-text); line-height: 1.5; }
+    .bullet-text strong { color: var(--black); }
+
+    /* ── LADDER ── */
+    .ladder-section {
+      background: var(--gray-light);
+      border-top: 1px solid var(--gray-mid);
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .ladder {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-top: 32px;
+    }
+
+    .ladder-row {
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .ladder-row:last-child { border-bottom: none; }
+
+    .ladder-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      color: var(--gray-text);
+      flex-shrink: 0;
+    }
+
+    .ladder-row.current .ladder-num {
+      background: var(--black);
+      color: var(--white);
+      border-color: var(--black);
+    }
+
+    .ladder-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gray-text);
+    }
+
+    .ladder-row.current .ladder-name { color: var(--black); }
+
+    .ladder-desc {
+      font-size: 14px;
+      color: var(--gray-text);
+      margin-top: 2px;
+    }
+
+    .ladder-tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--white);
+      background: var(--black);
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    /* ── INSTALL SESSION PREVIEW ── */
+    .install-preview {
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .session-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: 8px;
+    }
+
+    .session-block {
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-top: 32px;
+    }
+
+    .session-block h3 {
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    .session-minutes {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .minute-row {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      font-size: 15px;
+    }
+
+    .minute-row:last-child { border-bottom: none; }
+
+    .minute-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gray-text);
+      padding-top: 2px;
+      white-space: nowrap;
+    }
+
+    .minute-content { color: var(--gray-text); line-height: 1.5; }
+    .minute-content strong { color: var(--black); }
+
+    /* ── NEXT STEPS ── */
+    .next-steps {
+      background: var(--gray-light);
+      border-top: 1px solid var(--gray-mid);
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    @media (max-width: 600px) {
+      .steps-grid { grid-template-columns: 1fr; }
+
+      header { padding: 16px 5%; }
+
+      .results-wrap { padding: 36px 18px 80px; }
+
+      .level-hero { padding: 36px 18px; }
+
+      .section-box { padding: 24px 18px; }
+
+      /* Full-width CTAs */
+      .cta-btn, .btn { display: block; text-align: center; }
+
+      footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        padding: 24px 5%;
+      }
+    }
+
+    .step-card {
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      border-radius: 10px;
+      padding: 24px;
+    }
+
+    .step-card .step-num {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: 10px;
+    }
+
+    .step-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.2px;
+    }
+
+    .step-card p {
+      font-size: 15px;
+      color: var(--gray-text);
+      margin-bottom: 0;
+    }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(26px, 4vw, 42px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+
+    .final-cta .sub {
+      font-size: 18px;
+      color: var(--gray-text);
+      margin-bottom: 36px;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .small-note {
+      font-size: 14px;
+      color: var(--gray-text);
+    }
+
+    footer {
+      padding: 30px 8%;
+      border-top: 1px solid var(--gray-mid);
+      font-size: 14px;
+      color: var(--gray-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">AI Fluency</a>
+  <a class="btn" href="YOUR_CALENDLY_LINK" target="_blank">Book Your Install Session</a>
+</header>
+
+<!-- ══════════════════════════════════════
+     HERO — level name + tagline
+══════════════════════════════════════ -->
+<div class="result-hero">
+  <div class="level-badge" id="hero-badge">Level —</div>
+  <h1 id="hero-title">Your AI Native Level</h1>
+  <p class="tagline" id="hero-tagline"></p>
+</div>
+
+<!-- ══════════════════════════════════════
+     WHERE YOU ARE
+══════════════════════════════════════ -->
+<section class="where-you-are">
+  <div class="container">
+    <h2 id="where-heading">Where you are right now</h2>
+    <p id="where-intro"></p>
+
+    <div class="bullets" id="where-bullets"></div>
+
+    <p id="where-close"></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     THE LADDER
+══════════════════════════════════════ -->
+<section class="ladder-section">
+  <div class="container">
+    <h2>The full picture</h2>
+    <p>Here's the complete ladder — where you are, and what's above you.</p>
+
+    <div class="ladder" id="ladder"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     INSTALL SESSION PREVIEW
+══════════════════════════════════════ -->
+<section class="install-preview">
+  <div class="container">
+    <div class="session-label">Your first session</div>
+    <h2>What your Install Session looks like</h2>
+    <p id="session-intro"></p>
+
+    <div class="session-block">
+      <h3>60 minutes. Here's how it goes.</h3>
+      <div class="session-minutes" id="session-minutes"></div>
+    </div>
+
+    <p id="session-close" style="margin-top: 24px;"></p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     REFERRAL — share your level
+══════════════════════════════════════ -->
+<section class="referral-section" id="referral-section" style="border-bottom: 1px solid var(--gray-mid);">
+  <div class="container">
+    <h2>Know someone who should take this?</h2>
+    <p>
+      Share your results and send them your personal link.
+      When they complete the assessment, you'll both be tracked — and we'll have
+      a reason to check in with you on how everyone's progressing.
+    </p>
+
+    <div class="share-box" id="share-box" style="
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      border-radius: 10px;
+      padding: 28px 32px;
+      margin-top: 28px;
+    ">
+      <p style="font-size:14px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--gray-text); margin-bottom:16px;">Your referral link</p>
+
+      <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:24px;">
+        <input
+          type="text"
+          id="referral-link-input"
+          readonly
+          style="
+            flex:1; min-width:200px;
+            font-size:14px;
+            padding:12px 14px;
+            border:1px solid var(--gray-mid);
+            border-radius:6px;
+            background:var(--white);
+            color:var(--black);
+            font-family:monospace;
+            margin-bottom:0;
+          "
+          value=""
+        >
+        <button
+          onclick="copyReferralLink()"
+          id="copy-btn"
+          style="
+            background:var(--black); color:var(--white);
+            border:none; border-radius:6px;
+            padding:12px 20px; font-size:15px; font-weight:600;
+            cursor:pointer; white-space:nowrap; font-family:var(--font);
+          "
+        >Copy link</button>
+      </div>
+
+      <p style="font-size:14px; font-weight:700; color:var(--black); margin-bottom:10px;">Or share a message:</p>
+
+      <div
+        id="share-message"
+        style="
+          background:var(--white);
+          border:1px solid var(--gray-mid);
+          border-radius:6px;
+          padding:16px 18px;
+          font-size:15px;
+          color:var(--gray-text);
+          line-height:1.6;
+          white-space:pre-wrap;
+          cursor:pointer;
+          position:relative;
+        "
+        onclick="copyShareMessage()"
+        title="Click to copy"
+      ></div>
+      <p style="font-size:13px; color:var(--gray-text); margin-top:8px; margin-bottom:0;">Click the message to copy it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     NEXT STEPS
+══════════════════════════════════════ -->
+<section class="next-steps">
+  <div class="container-wide">
+    <div class="container">
+      <h2>Your next moves</h2>
+      <p>Based on where you are, here's what we recommend.</p>
+    </div>
+    <div class="steps-grid" id="steps-grid" style="max-width:960px; margin: 32px auto 0;"></div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FINAL CTA
+══════════════════════════════════════ -->
+<section class="final-cta">
+  <div class="container">
+    <h2 id="cta-heading">Ready to move up?</h2>
+    <p class="sub" id="cta-sub"></p>
+
+    <div class="cta-buttons">
+      <a class="btn" href="YOUR_CALENDLY_LINK" target="_blank" id="cta-primary">Book Your Install Session</a>
+      <a class="btn btn-outline" href="index.html">Learn more first</a>
+    </div>
+    <p class="small-note">We'll read your assessment answers before you arrive. The session starts where you are — not from scratch.</p>
+  </div>
+</section>
+
+<footer>
+  <span>AI Fluency</span>
+  <span>Questions? <a href="mailto:DaddyEntrepreneur@gmail.com" style="color:inherit;">DaddyEntrepreneur@gmail.com</a></span>
+</footer>
+
+<script>
+const CALENDLY_URL = 'YOUR_CALENDLY_LINK';
+
+// ══════════════════════════════════════
+// LEVEL DATA
+// ══════════════════════════════════════
+const levels = [
+  null,
+  // ── LEVEL 1 ──────────────────────────
+  {
+    badge:   'Level 1',
+    name:    'The Curious',
+    tagline: '"You know something\'s happening. You\'re right."',
+
+    whereHeading: 'You\'re paying attention. That\'s the first move.',
+    whereIntro: 'Most people at this stage are stuck in the same loop — reading about AI, meaning to start, then letting life get in the way. Each month the gap widens a little more.',
+    whereBullets: [
+      { filled: true,  text: 'You follow AI news and know the names (ChatGPT, Claude, Gemini…)' },
+      { filled: true,  text: 'You have a sense this is important and you shouldn\'t ignore it' },
+      { filled: false, text: 'You haven\'t found a way in that feels relevant to your actual work' },
+      { filled: false, text: 'The results you\'ve seen haven\'t been impressive enough to change your habits' },
+      { filled: false, text: 'The barrier feels higher than it probably is' },
+    ],
+    whereClose: 'The good news: the gap between Level 1 and Level 3 isn\'t months of learning. It\'s the right 60 minutes with the right setup. That\'s exactly what the Install Session is for.',
+
+    sessionIntro: 'We start from scratch — which is actually an advantage. No bad habits to unlearn. In the first 20 minutes you\'ll see AI do something in your actual work that will genuinely surprise you. That\'s the moment everything shifts.',
+    sessionMinutes: [
+      { time: '0–5 min',   content: '<strong>Your world, your words.</strong> We talk about your role, what you\'re working on right now, and what feels slow or hard. This is the raw material for everything we build.' },
+      { time: '5–25 min',  content: '<strong>The first real prompt.</strong> We take something you actually need to do today and show you what a properly structured prompt looks like — and what it produces. You\'ll see the difference immediately.' },
+      { time: '25–40 min', content: '<strong>Your AI OS, installed.</strong> We set up your tools properly, create your first Project with full context about who you are and what you do. It will know you going forward.' },
+      { time: '40–55 min', content: '<strong>Build one real thing.</strong> Together we build your first live workflow — a template, a prompt, a system — around something you\'re actually working on. You leave with it working.' },
+      { time: '55–60 min', content: '<strong>Your three next moves.</strong> We agree on exactly what you\'ll try this week. Specific, achievable, and chosen because they\'ll have the highest return for your role.' },
+    ],
+    sessionClose: 'You leave with something working in your life. Not a plan to try things later — something running now.',
+
+    steps: [
+      { num: '01', title: 'Book your Install Session', body: 'One 60-minute session to get your tools set up, your first workflow built, and your first real win. This is where the shift happens.' },
+      { num: '02', title: 'Come with something real', body: 'Think of one thing you\'re working on right now that feels slow or repetitive. That\'s what we\'ll build around in the session.' },
+      { num: '03', title: 'Expect to be surprised', body: 'Most people at Level 1 leave having done something they genuinely didn\'t think was possible for them. That feeling is the point.' },
+      { num: '04', title: 'Stay for the community', body: 'After your session, you\'ll have access to a group of professionals doing exactly this — sharing wins, asking questions, and keeping each other moving forward.' },
+    ],
+
+    ctaHeading: 'The gap is closer than you think.',
+    ctaSub: 'One session gets you from curious to capable. Book it now.',
+  },
+
+  // ── LEVEL 2 ──────────────────────────
+  {
+    badge:   'Level 2',
+    name:    'The Tourist',
+    tagline: '"You\'ve visited. You haven\'t moved in yet."',
+
+    whereHeading: 'You\'ve seen enough to know this is real. You haven\'t yet seen what it can really do.',
+    whereIntro: 'You\'ve tried it. Got some okay results. Maybe one or two moments that were actually impressive. And then you went back to doing things the old way — because the results weren\'t consistent enough to change your habits.',
+    whereBullets: [
+      { filled: true,  text: 'You\'ve used ChatGPT or Claude and know your way around basic prompts' },
+      { filled: true,  text: 'You\'ve had at least one result that surprised you' },
+      { filled: false, text: 'Every session starts from scratch — it doesn\'t know who you are' },
+      { filled: false, text: 'Your prompts are conversational, not structured — so results are inconsistent' },
+      { filled: false, text: 'You haven\'t yet seen it do something genuinely transformative for your specific work' },
+    ],
+    whereClose: 'The tools you\'ve already used are dramatically more powerful than what you\'ve experienced. The issue isn\'t the tool — it\'s the setup. One session fixes that.',
+
+    sessionIntro: 'You\'ve already crossed the first barrier — you\'ve tried it and you believe it works. Now we\'re going to show you what you\'ve been missing, and install a proper foundation so results stop being hit-or-miss.',
+    sessionMinutes: [
+      { time: '0–5 min',   content: '<strong>Diagnose the inconsistency.</strong> We look at what you\'ve tried before and quickly identify why some results were good and others weren\'t. Usually it\'s one or two fixable things.' },
+      { time: '5–20 min',  content: '<strong>Build your context system.</strong> We set up your first Project — an AI that knows your role, your goals, your voice. You\'ll run the same request you\'ve done before and see the difference immediately.' },
+      { time: '20–35 min', content: '<strong>Structured prompting.</strong> We walk through the framework that turns inconsistent results into reliable ones: Role, Task, Context, Format. You\'ll use it for everything going forward.' },
+      { time: '35–55 min', content: '<strong>Your first real workflow.</strong> We pick something from your actual work and build it properly — a prompt you\'ll reuse, a template that\'s already loaded with your context.' },
+      { time: '55–60 min', content: '<strong>Three things to do this week.</strong> Specific, practical, and chosen to get you your first real time-saving result before we speak again.' },
+    ],
+    sessionClose: 'You leave knowing exactly why it was inconsistent before — and with a setup that fixes it.',
+
+    steps: [
+      { num: '01', title: 'Book your Install Session', body: 'We\'ll find the gap between what you\'ve experienced and what\'s actually possible — and close it in 60 minutes.' },
+      { num: '02', title: 'Think about what\'s been frustrating', body: 'What have you tried that didn\'t work as well as you hoped? Bring that. It\'s often the most useful starting point.' },
+      { num: '03', title: 'Come with one real task', body: 'Something you\'re actually working on this week. That\'s what we\'ll build your first proper workflow around.' },
+      { num: '04', title: 'Set a goal for the first week', body: 'By the time you go home, we want you to have one thing you\'re going to replace with AI this week. We\'ll agree on it at the end of the session.' },
+    ],
+
+    ctaHeading: 'You\'re one session away from consistent results.',
+    ctaSub: 'Let\'s find the gap and close it.',
+  },
+
+  // ── LEVEL 3 ──────────────────────────
+  {
+    badge:   'Level 3',
+    name:    'The Regular',
+    tagline: '"You\'re in. You\'re just not in a system yet."',
+
+    whereHeading: 'You\'re getting real value. You know you\'re leaving more on the table.',
+    whereIntro: 'You use AI regularly and it genuinely helps. But something\'s not clicking into place. Results vary. You\'re re-explaining yourself constantly. You\'re doing tasks one at a time instead of building things that compound.',
+    whereBullets: [
+      { filled: true,  text: 'You open an AI tool several times a week and actually use it' },
+      { filled: true,  text: 'You get real value from drafting, research, and brainstorming' },
+      { filled: false, text: 'You start from scratch every session — it doesn\'t remember who you are or what you\'re working on' },
+      { filled: false, text: 'You use AI as an assistant for tasks. You haven\'t yet used it as a thinking partner for decisions.' },
+      { filled: false, text: 'Your best results aren\'t repeatable — they depend on you getting the prompt right each time' },
+    ],
+    whereClose: 'The jump from Level 3 to Level 4 isn\'t more tools. It\'s a better architecture. An AI that knows your context, your role, and your goals is a completely different experience — and it\'s one session away.',
+
+    sessionIntro: 'You don\'t need convincing that AI works. You need to stop wasting time re-explaining yourself, and start building things that compound. The Install Session diagnoses what\'s missing and fills it in — fast.',
+    sessionMinutes: [
+      { time: '0–10 min', content: '<strong>Audit what you\'ve built.</strong> We look at how you\'re currently using AI, find the gaps, and decide what to prioritise. This is usually faster than people expect.' },
+      { time: '10–30 min', content: '<strong>Build your proper context system.</strong> A Project that knows your role, voice, current priorities, and working style. From this point forward, you never explain yourself from scratch.' },
+      { time: '30–45 min', content: '<strong>The thinking partner shift.</strong> We use AI for something that\'s genuinely hard — a decision you\'re wrestling with, a conversation you\'re preparing for, a strategy you\'re stress-testing. This is where the ceiling disappears.' },
+      { time: '45–58 min', content: '<strong>One reusable system.</strong> A workflow or prompt library that does one important thing automatically — so you get the result without doing the work every time.' },
+      { time: '58–60 min', content: '<strong>Your next level goal.</strong> We agree on the one thing that, if you do it consistently for the next two weeks, moves you from Regular to Builder.' },
+    ],
+    sessionClose: 'You leave with a proper setup and the experience of using AI for something that actually mattered — not just a task, but a real problem.',
+
+    steps: [
+      { num: '01', title: 'Book your Install Session', body: 'We\'ll turn your sporadic wins into a repeatable system in one session.' },
+      { num: '02', title: 'Bring something you\'re wrestling with', body: 'A real decision, a hard conversation, a strategic question. Not a task — something where you\'d value a sharp thinking partner.' },
+      { num: '03', title: 'Identify your most repeated task', body: 'The thing you do over and over that AI could be doing better. We\'ll build a reusable workflow for it.' },
+      { num: '04', title: 'Join the community', body: 'The biggest accelerator at Level 3 is seeing how other professionals in non-technical roles are using AI at Level 4 and 5. Being around that raises your game.' },
+    ],
+
+    ctaHeading: 'Good foundations. Let\'s build the system on top.',
+    ctaSub: 'One session takes you from sporadic wins to something that compounds.',
+  },
+
+  // ── LEVEL 4 ──────────────────────────
+  {
+    badge:   'Level 4',
+    name:    'The Builder',
+    tagline: '"You\'ve built something real. Now let\'s make it compound."',
+
+    whereHeading: 'You\'re ahead of most people. And you know the ceiling is higher than where you are.',
+    whereIntro: 'You think in systems. You\'ve set things up. You\'ve had moments where you showed a colleague something and watched their jaw drop. But you\'re probably still working harder than you need to — and there\'s a layer above you that you\'ve glimpsed but not yet reached.',
+    whereBullets: [
+      { filled: true,  text: 'You have Projects, custom instructions, or saved prompt libraries you actually return to' },
+      { filled: true,  text: 'You use AI for strategy, analysis, and decisions — not just writing and research' },
+      { filled: true,  text: 'You\'ve built at least one workflow that saves you meaningful time' },
+      { filled: false, text: 'Your workflows are mostly manual and one-directional — they don\'t compound' },
+      { filled: false, text: 'You haven\'t yet used AI deeply for the highest-stakes, highest-value parts of your work' },
+    ],
+    whereClose: 'The gap between Builder and Multiplier is about depth, not breadth. It\'s using what you\'ve built for the work that actually matters most — and starting to shape how others in your field use it.',
+
+    sessionIntro: 'You\'ve done the hard part of believing in this and building something. The Install Session for you is about pushing past where you\'ve gone, into the parts of your work where AI can have the biggest impact.',
+    sessionMinutes: [
+      { time: '0–10 min',  content: '<strong>Audit and push.</strong> We look at what you\'ve built and identify where the ceiling is. Usually it\'s one of two things: depth of application or the lack of compounding.' },
+      { time: '10–30 min', content: '<strong>The highest-stakes use case.</strong> We pick something important — a decision, a strategy, a hard conversation — and use AI as a genuine thinking partner. Not to do the work. To make your thinking sharper.' },
+      { time: '30–45 min', content: '<strong>One compounding system.</strong> Something that runs without you re-doing it each time. Could be an automation, a role-specific template library, or an agent for a recurring task.' },
+      { time: '45–58 min', content: '<strong>The sharing layer.</strong> You\'re close to being the person in your field who sets the standard. We talk about what that looks like — and what one thing you could share that would make others better.' },
+      { time: '58–60 min', content: '<strong>Your Level 5 roadmap.</strong> Specific, sequenced, and achievable in the next 30 days.' },
+    ],
+    sessionClose: 'You leave with your next level clearly mapped and one new system that actually compounds.',
+
+    steps: [
+      { num: '01', title: 'Book your Install Session', body: 'Bring what you\'ve built. We\'ll push it further and find the gaps you haven\'t filled yet.' },
+      { num: '02', title: 'Identify what\'s still manual', body: 'What do you do repeatedly that should be running on its own by now? That\'s usually where the biggest efficiency gain is.' },
+      { num: '03', title: 'Pick your highest-value use case', body: 'What\'s the part of your work where better AI usage would have the biggest impact? Not the easiest — the most important.' },
+      { num: '04', title: 'Think about the sharing layer', body: 'Who in your team or field would benefit from what you\'ve figured out? Level 5 is partly defined by making others better. We\'ll talk about what that looks like for you.' },
+    ],
+
+    ctaHeading: 'You\'re close to the level that changes everything.',
+    ctaSub: 'Let\'s find the ceiling and push past it.',
+  },
+
+  // ── LEVEL 5 ──────────────────────────
+  {
+    badge:   'Level 5',
+    name:    'The Multiplier',
+    tagline: '"AI is woven into your best work. Now you\'re making others better."',
+
+    whereHeading: 'You\'re at the target. Most people are still trying to get here.',
+    whereIntro: 'This is what genuine AI fluency looks like for a professional in a non-technical field. AI isn\'t a separate tab you open — it\'s woven into how you do your best work. You feel ahead, and that feeling is accurate.',
+    whereBullets: [
+      { filled: true, text: 'AI is integrated into your actual job — not a tool you use occasionally' },
+      { filled: true, text: 'You use it as a thinking partner: to pressure-test, prepare, and see around corners' },
+      { filled: true, text: 'Your setups are specific to your role and your subject matter expertise' },
+      { filled: true, text: 'People in your field come to you with AI questions' },
+      { filled: false, text: 'There\'s a frontier above you — agents, deeper compounding, shaping how your profession uses AI — that you haven\'t fully reached yet' },
+    ],
+    whereClose: 'The path forward from here is less about learning and more about depth, compounding, and influence. The Install Session for you is about finding the next layer and starting to build it.',
+
+    sessionIntro: 'You\'re already doing most of what we teach. The Install Session for you is a strategic session: where\'s the next layer, what\'s still manual that shouldn\'t be, and how do you start shaping how your field uses AI — not just keeping up with it.',
+    sessionMinutes: [
+      { time: '0–15 min',  content: '<strong>Deep audit.</strong> We map everything you\'ve built and identify the highest-leverage gaps. Usually this surfaces one or two things that, if solved, would have an outsized impact.' },
+      { time: '15–35 min', content: '<strong>The compounding layer.</strong> What\'s still requiring your input that shouldn\'t be? We identify the best candidate for a proper automated workflow or agent and sketch it out.' },
+      { time: '35–50 min', content: '<strong>The influence layer.</strong> You\'re in a position to shape how your team, field, or network uses AI. We talk about what that looks like — a framework, a shared resource, a workshop, a way of talking about it.' },
+      { time: '50–60 min', content: '<strong>Your Level 6 horizon.</strong> Not a prescription — a conversation about what it looks like to move from deeply applying AI to actively shaping the frontier in your field.' },
+    ],
+    sessionClose: 'You leave with a clear picture of what\'s above you and a specific next move toward it.',
+
+    steps: [
+      { num: '01', title: 'Book your Install Session', body: 'This is a strategic conversation, not a setup session. Come ready to think about what\'s next, not just what\'s working.' },
+      { num: '02', title: 'Map what\'s still manual', body: 'At your level, anything still requiring your repeated input is worth automating. We\'ll find the best target.' },
+      { num: '03', title: 'Think about the sharing layer', body: 'What have you figured out that others in your field haven\'t? The step from Level 5 to 6 is often about turning private knowledge into something shareable.' },
+      { num: '04', title: 'Stay in the community', body: 'At Level 5, you\'re as valuable to others in the community as the community is to you. That dynamic is worth being part of.' },
+    ],
+
+    ctaHeading: 'There\'s a frontier above Level 5. Let\'s find it.',
+    ctaSub: 'A strategic session to map what\'s next.',
+  },
+
+  // ── LEVEL 6 ──────────────────────────
+  {
+    badge:   'Level 6',
+    name:    'The Native',
+    tagline: '"You\'re building the thing others are trying to catch up to."',
+
+    whereHeading: 'You\'re at the frontier. This is rare.',
+    whereIntro: 'You\'re not just using AI — you\'re shaping how it gets used. You experiment the week new tools drop, you have opinions that others quote, and you\'re probably already teaching or writing about this in some form.',
+    whereBullets: [
+      { filled: true, text: 'You experiment with new tools and models as they\'re released' },
+      { filled: true, text: 'You think about AI implications for your field constantly' },
+      { filled: true, text: 'You write, build, or teach in a way that shapes how others in your space operate' },
+      { filled: true, text: 'You have opinions about frontier models, agents, and workflows that others reference' },
+      { filled: true, text: 'You\'re not just staying ahead — you\'re defining what ahead looks like' },
+    ],
+    whereClose: 'The community here is your kind of people. And the highest-value thing you can do at Level 6 is find the person who\'s exactly where you were two or three years ago — and bring them up faster than you had to figure it out.',
+
+    sessionIntro: 'An Install Session for you isn\'t onboarding — it\'s a peer conversation. We\'d love to talk about what you\'re seeing at the frontier, what you\'re building, and whether there\'s a way to work together to accelerate others.',
+    sessionMinutes: [
+      { time: '0–20 min',  content: '<strong>What you\'re seeing.</strong> What\'s interesting at the frontier right now, from your vantage point? This is a genuine peer exchange.' },
+      { time: '20–40 min', content: '<strong>What you\'re building.</strong> What are you working on that others in your field should know about? Is there a way to make it available to more people?' },
+      { time: '40–55 min', content: '<strong>How we might work together.</strong> Whether that\'s contributing to the community, co-creating something, or just staying in touch — let\'s figure out if there\'s a fit.' },
+      { time: '55–60 min', content: '<strong>Who should you bring.</strong> Who in your network is a few levels below you and ready to make the jump? Bringing one person accelerates the whole ecosystem.' },
+    ],
+    sessionClose: 'This is a conversation between equals. Looking forward to it.',
+
+    steps: [
+      { num: '01', title: 'Book a conversation', body: 'Not an install session — a real conversation about what you\'re building and what we might do together.' },
+      { num: '02', title: 'Bring someone with you', body: 'Who in your network is at Level 2 or 3 and ready to move? Refer them and we\'ll make sure they get where you are, faster.' },
+      { num: '03', title: 'Consider contributing', body: 'The community is better when people at Level 6 are part of it. There may be a role for you here as a contributor, guest, or collaborator.' },
+      { num: '04', title: 'Keep going', body: 'You know what to do. The frontier moves fast and you\'re tracking it. Keep building.' },
+    ],
+
+    ctaHeading: 'Let\'s talk.',
+    ctaSub: 'Peer conversation. No pitch. Genuine curiosity about what you\'re building.',
+  },
+];
+
+// ══════════════════════════════════════
+// LADDER CONTENT (short version for the ladder display)
+// ══════════════════════════════════════
+const ladderRows = [
+  { level: 6, name: 'The Native',     desc: 'Building the thing others are trying to catch up to' },
+  { level: 5, name: 'The Multiplier', desc: 'AI woven into your best work; making others better' },
+  { level: 4, name: 'The Builder',    desc: 'Systems thinking; real workflows; starting to compound' },
+  { level: 3, name: 'The Regular',    desc: 'Using it, getting value — but not yet systematised' },
+  { level: 2, name: 'The Tourist',    desc: 'Visited, not yet moved in; inconsistent results' },
+  { level: 1, name: 'The Curious',    desc: 'Paying attention; the barrier feels higher than it is' },
+];
+
+// ══════════════════════════════════════
+// READ URL PARAMS & RENDER
+// ══════════════════════════════════════
+(function init() {
+  const params  = new URLSearchParams(window.location.search);
+  const level   = Math.min(6, Math.max(1, parseInt(params.get('level')) || 1));
+  const name    = params.get('name')    ? decodeURIComponent(params.get('name'))    : '';
+  const role    = params.get('role')    ? decodeURIComponent(params.get('role'))    : '';
+  const refcode = params.get('refcode') ? decodeURIComponent(params.get('refcode')) : '';
+
+  const d = levels[level];
+
+  // Update Calendly links
+  document.querySelectorAll('[href="YOUR_CALENDLY_LINK"]').forEach(el => {
+    el.href = CALENDLY_URL;
+  });
+
+  // Hero
+  document.getElementById('hero-badge').textContent   = d.badge;
+  document.getElementById('hero-title').textContent   = (name ? `${name.split(' ')[0]}, you're ` : 'You\'re ') + d.name;
+  document.getElementById('hero-tagline').textContent = d.tagline;
+
+  // Where you are
+  document.getElementById('where-heading').textContent = d.whereHeading;
+  document.getElementById('where-intro').textContent   = d.whereIntro;
+  document.getElementById('where-close').textContent   = d.whereClose;
+
+  const bulletsEl = document.getElementById('where-bullets');
+  d.whereBullets.forEach(b => {
+    const el = document.createElement('div');
+    el.className = 'bullet';
+    el.innerHTML = `
+      <div class="bullet-dot ${b.filled ? '' : 'empty'}"></div>
+      <div class="bullet-text">${b.text}</div>
+    `;
+    bulletsEl.appendChild(el);
+  });
+
+  // Ladder
+  const ladderEl = document.getElementById('ladder');
+  ladderRows.forEach(row => {
+    const isCurrent = row.level === level;
+    const el = document.createElement('div');
+    el.className = 'ladder-row' + (isCurrent ? ' current' : '');
+    el.innerHTML = `
+      <div class="ladder-num">${row.level}</div>
+      <div>
+        <div class="ladder-name">${row.name}</div>
+        <div class="ladder-desc">${row.desc}</div>
+      </div>
+      ${isCurrent ? '<div class="ladder-tag">You are here</div>' : '<div></div>'}
+    `;
+    ladderEl.appendChild(el);
+  });
+
+  // Session
+  document.getElementById('session-intro').textContent = d.sessionIntro;
+  document.getElementById('session-close').textContent = d.sessionClose;
+
+  const minutesEl = document.getElementById('session-minutes');
+  d.sessionMinutes.forEach(m => {
+    const el = document.createElement('div');
+    el.className = 'minute-row';
+    el.innerHTML = `
+      <div class="minute-label">${m.time}</div>
+      <div class="minute-content">${m.content}</div>
+    `;
+    minutesEl.appendChild(el);
+  });
+
+  // Next steps
+  const stepsEl = document.getElementById('steps-grid');
+  d.steps.forEach(s => {
+    const el = document.createElement('div');
+    el.className = 'step-card';
+    el.innerHTML = `
+      <div class="step-num">Step ${s.num}</div>
+      <h3>${s.title}</h3>
+      <p>${s.body}</p>
+    `;
+    stepsEl.appendChild(el);
+  });
+
+  // Final CTA
+  document.getElementById('cta-heading').textContent = d.ctaHeading;
+  document.getElementById('cta-sub').textContent     = d.ctaSub;
+
+  // Page title
+  document.title = `${d.badge}: ${d.name} | AI Fluency`;
+
+  // ── REFERRAL SECTION ──────────────────────────────────────────
+  if (refcode) {
+    const baseUrl      = window.location.origin + window.location.pathname.replace('results.html', 'assessment.html');
+    const referralLink = `${baseUrl}?ref=${refcode}`;
+    const firstName    = name ? name.split(' ')[0] : 'I';
+
+    document.getElementById('referral-link-input').value = referralLink;
+
+    const shareMsg = firstName === 'I'
+      ? `I just took the AI Fluency Assessment and landed at ${d.badge}: ${d.name}.\n\nIf you've been meaning to figure out where you are with AI — and what to do about it — this is worth 5 minutes.\n\n${referralLink}`
+      : `I just took the AI Fluency Assessment — ${d.badge}: ${d.name}.\n\nIf you've been meaning to figure out where you are with AI, this is worth 5 minutes.\n\n${referralLink}`;
+
+    document.getElementById('share-message').textContent = shareMsg;
+  } else {
+    // No refcode — hide the referral section rather than show a broken link
+    document.getElementById('referral-section').style.display = 'none';
+  }
+})();
+
+// ── COPY HELPERS ──────────────────────────────────────────────
+function copyReferralLink() {
+  const input = document.getElementById('referral-link-input');
+  navigator.clipboard.writeText(input.value).then(() => {
+    const btn = document.getElementById('copy-btn');
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.textContent = 'Copy link', 2000);
+  });
+}
+
+function copyShareMessage() {
+  const text = document.getElementById('share-message').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const el = document.getElementById('share-message');
+    el.style.background = '#f0f0f0';
+    el.style.color = 'var(--black)';
+    setTimeout(() => {
+      el.style.background = 'var(--white)';
+      el.style.color = 'var(--gray-text)';
+    }, 1500);
+  });
+}
+</script>
+
+</body>
+</html>

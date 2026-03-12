@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fluency | Become fluent in AI. Stay fluent.</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #ffffff;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --gray-text: #555;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.65;
+      font-size: 18px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.97);
+      border-bottom: 1px solid var(--gray-mid);
+      z-index: 100;
+    }
+
+    .logo {
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.3px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 12px 22px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.8; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--black);
+      border: 2px solid var(--black);
+    }
+
+    .btn-outline:hover { background: var(--black); color: var(--white); opacity: 1; }
+
+    .btn-lg {
+      padding: 16px 32px;
+      font-size: 17px;
+      border-radius: 8px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      padding: 90px 8%;
+    }
+
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .container-wide {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 120px 8% 100px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 28px;
+      max-width: 700px;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      border-bottom: 3px solid var(--black);
+    }
+
+    .hero .subhead {
+      font-size: clamp(18px, 2.2vw, 22px);
+      color: var(--gray-text);
+      max-width: 600px;
+      margin-bottom: 40px;
+      line-height: 1.55;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .hero-cta .note {
+      font-size: 14px;
+      color: var(--gray-text);
+      margin-top: 14px;
+    }
+
+    /* ── PROBLEM ── */
+    .problem {
+      background: var(--gray-light);
+      border-top: 1px solid var(--gray-mid);
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .problem h2 {
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 28px;
+      line-height: 1.2;
+    }
+
+    .problem p {
+      color: var(--gray-text);
+      margin-bottom: 18px;
+      font-size: 19px;
+    }
+
+    .problem p strong { color: var(--black); }
+
+    /* ── WHAT THIS IS ── */
+    .what h2 {
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .what .lead {
+      font-size: 20px;
+      color: var(--gray-text);
+      margin-bottom: 40px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .two-col { grid-template-columns: 1fr; }
+    }
+
+    .col-card {
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      border-radius: 10px;
+      padding: 32px;
+    }
+
+    .col-card h3 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: 18px;
+    }
+
+    .col-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .col-card ul li {
+      font-size: 17px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      color: var(--gray-text);
+    }
+
+    .col-card ul li:last-child { border-bottom: none; }
+
+    .col-card.dark {
+      background: var(--black);
+      border-color: var(--black);
+    }
+
+    .col-card.dark h3 { color: #888; }
+
+    .col-card.dark ul li {
+      color: var(--white);
+      border-color: #2a2a2a;
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      background: var(--gray-light);
+      border-top: 1px solid var(--gray-mid);
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .how h2 {
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 48px;
+      line-height: 1.2;
+    }
+
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 24px;
+      padding: 36px 0;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      font-size: 48px;
+      font-weight: 800;
+      color: var(--gray-mid);
+      line-height: 1;
+      padding-top: 4px;
+    }
+
+    .step h3 {
+      font-size: 21px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+
+    .step p {
+      color: var(--gray-text);
+      font-size: 17px;
+    }
+
+    .step .highlight {
+      display: inline-block;
+      margin-top: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--black);
+      background: var(--white);
+      border: 1px solid var(--gray-mid);
+      border-radius: 4px;
+      padding: 6px 12px;
+      text-decoration: none;
+    }
+
+    /* ── WHO ── */
+    .who h2 {
+      font-size: clamp(26px, 3.5vw, 38px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    .who .lead {
+      font-size: 20px;
+      color: var(--gray-text);
+      margin-bottom: 40px;
+    }
+
+    .role-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .role-tag {
+      font-size: 15px;
+      font-weight: 600;
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      border-radius: 100px;
+      padding: 8px 18px;
+    }
+
+    .who .not-for {
+      font-size: 16px;
+      color: var(--gray-text);
+    }
+
+    /* ── TEAMS ── */
+    .teams {
+      background: var(--gray-light);
+      border-top: 1px solid var(--gray-mid);
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .teams h2 {
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .teams p {
+      font-size: 18px;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+      max-width: 620px;
+    }
+
+    .teams p strong { color: var(--black); }
+
+    /* ── EMPLOYER ── */
+    .employer h2 {
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 20px;
+      line-height: 1.2;
+    }
+
+    .employer p {
+      font-size: 18px;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+      max-width: 620px;
+    }
+
+    .employer p strong { color: var(--black); }
+
+    .email-template {
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      border-left: 3px solid var(--black);
+      border-radius: 6px;
+      padding: 20px 24px;
+      margin-top: 24px;
+      font-size: 16px;
+      color: var(--gray-text);
+      font-style: italic;
+      max-width: 620px;
+    }
+
+    .email-template strong { color: var(--black); font-style: normal; }
+
+    /* ── FOUNDER ── */
+    .founder {
+      background: var(--black);
+      color: var(--white);
+      border-top: 1px solid #222;
+    }
+
+    .founder h2 {
+      font-size: clamp(24px, 3vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .founder p {
+      font-size: 18px;
+      color: #bbb;
+      margin-bottom: 18px;
+      max-width: 620px;
+    }
+
+    .founder p strong { color: var(--white); }
+
+    /* ── FINAL CTA ── */
+    .final-cta {
+      text-align: center;
+      padding: 100px 8%;
+      border-top: 1px solid var(--gray-mid);
+    }
+
+    .final-cta h2 {
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 20px;
+      line-height: 1.15;
+    }
+
+    .final-cta p {
+      font-size: 19px;
+      color: var(--gray-text);
+      margin-bottom: 36px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .final-cta .small {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--gray-text);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 30px 8%;
+      border-top: 1px solid var(--gray-mid);
+      font-size: 14px;
+      color: var(--gray-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 640px) {
+      header { padding: 16px 5%; }
+      header .btn { padding: 10px 16px; font-size: 14px; }
+
+      section { padding: 60px 5%; }
+      .hero { padding: 72px 5% 60px; }
+
+      .hero-cta { flex-direction: column; align-items: flex-start; }
+      .hero-cta .btn, .hero-cta .btn-outline {
+        width: 100%;
+        text-align: center;
+        padding: 16px 24px;
+        font-size: 16px;
+      }
+
+      .two-col { grid-template-columns: 1fr; gap: 16px; }
+
+      .step { grid-template-columns: 48px 1fr; gap: 16px; }
+      .step-num { font-size: 36px; }
+
+      .role-list { gap: 8px; }
+
+      .email-template { padding: 16px 18px; font-size: 15px; }
+
+      .final-cta .btn { display: block; text-align: center; }
+
+      footer {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+        padding: 24px 5%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">AI Fluency</div>
+  <a class="btn" href="assessment.html">Find your level &rarr;</a>
+</header>
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <h1>The only way to become fluent<br>is to <em>start speaking</em>.</h1>
+
+    <p class="subhead">
+      AI fluency is the professional skill of this decade. Not coding — fluency.
+      The ability to use AI to think better, work faster, and stay relevant
+      as the landscape keeps shifting. It's learnable. And it starts with knowing where you are.
+    </p>
+
+    <div class="hero-cta">
+      <a class="btn btn-lg" href="assessment.html">Find your AI Fluency Level</a>
+      <a class="btn btn-outline" href="YOUR_CALENDLY_LINK" target="_blank">Book an install session</a>
+    </div>
+    <p class="note">The assessment takes 5 minutes. Your level and a clear picture of what's next — free, immediately.</p>
+  </div>
+</section>
+
+
+<!-- PROBLEM -->
+<section class="problem">
+  <div class="container">
+    <h2>You're not behind.<br>You're just untrained.</h2>
+
+    <p>
+      You've probably opened ChatGPT. Maybe watched a few videos.
+      Walked away thinking — <strong>okay, but what do I actually do with this?</strong>
+    </p>
+
+    <p>
+      Meanwhile the tools keep multiplying, the news keeps accelerating,
+      and somewhere in the back of your mind is a quiet, uncomfortable thought:
+    </p>
+
+    <p>
+      <strong>What if this changes how value is created — and I'm not adapting fast enough?</strong>
+    </p>
+
+    <p>
+      That feeling is data. And it's right about one thing: the landscape is genuinely moving.
+      New tools every week. Capabilities that didn't exist six months ago now built into everything.
+      The professionals staying ahead aren't smarter — they have a system for keeping up.
+      That's what this builds.
+    </p>
+  </div>
+</section>
+
+
+<!-- WHAT THIS IS -->
+<section class="what">
+  <div class="container-wide">
+    <div class="container">
+      <h2>This isn't a course.<br>It's an installation.</h2>
+      <p class="lead">
+        Most AI content teaches you about tools. This installs AI into your actual work —
+        tailored to your role, your workflow, your goals. Then keeps you current as the landscape moves.
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div class="col-card">
+        <h3>Not This</h3>
+        <ul>
+          <li>Generic AI course</li>
+          <li>YouTube playlist</li>
+          <li>Prompt engineering class</li>
+          <li>Technical bootcamp</li>
+          <li>One-off workshop you forget by Monday</li>
+        </ul>
+      </div>
+
+      <div class="col-card dark">
+        <h3>This</h3>
+        <ul>
+          <li>1:1 install session built around your role</li>
+          <li>Real workflows, built live, on your actual work</li>
+          <li>A baseline — and a clear path to the next level</li>
+          <li>Ongoing signal: what's new, what matters for you, what to do with it</li>
+          <li>A community of professionals building alongside you</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="container">
+    <h2>How it works</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <h3>Assess — Find your level</h3>
+          <p>
+            The AI Fluency Assessment maps where you are across six levels —
+            from Curious to Native. Takes 5–7 minutes. You'll see exactly where you
+            are, what's holding you back, and what becomes possible from here.
+            We read your results before your session so we already know where to start.
+          </p>
+          <a class="highlight" href="assessment.html">Take the assessment &rarr;</a>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <h3>Install — Your first session</h3>
+          <p>
+            We sit down together — in person or on a call — and install your AI setup.
+            Your tools, configured for your role. Your first real workflow built live,
+            around something you're actually working on right now. You leave with
+            something working. Not theory — a working system.
+          </p>
+          <span class="highlight">You leave your first session with real results. Guaranteed.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <h3>Stay current — as the landscape moves</h3>
+          <p>
+            AI is a living language. New tools, new capabilities, new ways of working
+            appear constantly. The subscription keeps you moving: what dropped this week,
+            what matters for your level and role, and exactly what to do with it.
+            Not another newsletter — a trusted filter, personalized to where you are.
+          </p>
+          <span class="highlight">Getting ahead is a session. Staying ahead is a practice.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- WHO IT'S FOR -->
+<section class="who">
+  <div class="container">
+    <h2>For professionals who live<br>in a computer.</h2>
+    <p class="lead">
+      If a large part of your working day involves a screen — and you want AI to
+      make that work better, faster, and sharper — this is for you.
+    </p>
+
+    <div class="role-list">
+      <span class="role-tag">Lawyers</span>
+      <span class="role-tag">Consultants</span>
+      <span class="role-tag">Accountants</span>
+      <span class="role-tag">Marketers</span>
+      <span class="role-tag">Managers</span>
+      <span class="role-tag">Finance Professionals</span>
+      <span class="role-tag">HR &amp; People Leaders</span>
+      <span class="role-tag">Operators</span>
+      <span class="role-tag">Founders</span>
+      <span class="role-tag">Chiefs of Staff</span>
+    </div>
+
+    <p class="not-for">
+      Not for engineers or full-time AI practitioners — you're already ahead of most people and don't need this.
+    </p>
+  </div>
+</section>
+
+
+<!-- TEAMS -->
+<section class="teams">
+  <div class="container">
+    <h2>Working with a team?</h2>
+
+    <p>
+      AI fluency is a team problem as much as an individual one.
+      Most teams have a wide spread — <strong>a few people quietly ahead, most getting by, some not started.</strong>
+      That gap doesn't close on its own. And the team's floor matters as much as its ceiling.
+    </p>
+
+    <p>
+      We offer team assessments that show exactly where everyone is and what it would take
+      to move the whole group forward — not just the enthusiasts.
+    </p>
+
+    <p>
+      If you're thinking about your colleagues as you go through this,
+      that's worth a conversation.
+    </p>
+
+    <a class="btn btn-outline" href="mailto:DaddyEntrepreneur@gmail.com" style="margin-top: 8px;">Talk to us about a team program</a>
+  </div>
+</section>
+
+
+<!-- EMPLOYER PAYS -->
+<section class="employer">
+  <div class="container">
+    <h2>Your employer can pay for this.</h2>
+
+    <p>
+      AI fluency is a professional skill — <strong>exactly what learning and development budgets are designed for.</strong>
+      Most employers have L&amp;D or professional development allowances that go unused.
+      This qualifies. We provide a proper invoice.
+    </p>
+
+    <p>
+      Not sure if yours applies? It almost certainly does. Check your employee handbook or ask HR.
+      If you need something to put in an email to your manager:
+    </p>
+
+    <div class="email-template">
+      "I'm looking at an AI fluency program — a 1:1 install session that sets up AI tools
+      tailored to my role, followed by an ongoing subscription that keeps me current on
+      what's relevant. It falls under professional development. Happy to share more details."
+    </div>
+  </div>
+</section>
+
+
+<!-- FOUNDER -->
+<section class="founder">
+  <div class="container">
+    <h2>The person behind this.</h2>
+
+    <p>
+      I've spent over a decade working at the intersection of strategy, product, and technology —
+      helping organisations figure out what's actually possible and then making it work in practice.
+      <strong>Translating complexity into something useful is what I do.</strong>
+    </p>
+
+    <p>
+      A few years ago I went deep on AI. Not casually — <strong>seriously.</strong>
+      I carved out the time, treated it like a skill worth building properly, and it changed how I work.
+      Hours back every week. Sharper thinking. Better outcomes. An edge that keeps compounding
+      because the tools keep improving.
+    </p>
+
+    <p>
+      The frustrating thing I kept noticing: most people around me weren't getting any of that value —
+      not because they weren't capable, but because nobody had sat down with them and made it
+      real for their actual job. That's the gap this fills.
+    </p>
+
+    <p style="color: #666; font-size: 15px; margin-top: 8px;">
+      American, based in England. Happy to work with either accent.
+    </p>
+  </div>
+</section>
+
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <div class="container">
+    <h2>Find out where you are.<br>Then let's move you forward.</h2>
+
+    <p>
+      The assessment takes 5 minutes. You'll see your level, what it means,
+      and exactly what becomes possible from here.
+    </p>
+
+    <a class="btn btn-lg" href="assessment.html">Take the AI Fluency Assessment</a>
+
+    <p class="small">
+      Already seen your level and ready to get started?
+      <a href="YOUR_CALENDLY_LINK" target="_blank" style="color: var(--black); font-weight: 600;">Book your install session &rarr;</a>
+    </p>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <span>AI Fluency</span>
+  <span>Questions? <a href="mailto:DaddyEntrepreneur@gmail.com" style="color: inherit;">DaddyEntrepreneur@gmail.com</a></span>
+</footer>
+
+</body>
+</html>

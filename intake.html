@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Before We Meet | AI Fluency</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #ffffff;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --gray-text: #555;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.6;
+      font-size: 17px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .logo { font-weight: 700; font-size: 17px; text-decoration: none; color: var(--black); }
+
+    .progress-bar-wrap { height: 3px; background: var(--gray-mid); width: 100%; }
+    .progress-bar { height: 3px; background: var(--black); width: 0%; transition: width 0.4s ease; }
+    .progress-label {
+      text-align: center;
+      font-size: 13px;
+      color: var(--gray-text);
+      padding: 12px 8%;
+      letter-spacing: 0.5px;
+    }
+
+    .form-wrap {
+      max-width: 660px;
+      margin: 0 auto;
+      padding: 48px 24px 100px;
+    }
+
+    .step { display: none; animation: fadeIn 0.3s ease; }
+    .step.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .step-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: 14px;
+    }
+
+    .step h2 {
+      font-size: clamp(20px, 3vw, 27px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+
+    .step .sub {
+      font-size: 15px;
+      color: var(--gray-text);
+      margin-bottom: 36px;
+      line-height: 1.6;
+    }
+
+    .question { margin-bottom: 32px; }
+
+    .question label.q-label {
+      display: block;
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .question .q-note {
+      font-size: 13px;
+      color: var(--gray-text);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .options { display: flex; flex-direction: column; gap: 8px; }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      border: 1.5px solid var(--gray-mid);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .option:hover { border-color: #aaa; background: var(--gray-light); }
+    .option.selected { border-color: var(--black); background: var(--gray-light); }
+
+    .option input[type="radio"],
+    .option input[type="checkbox"] {
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: var(--black);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+
+    .option span { flex: 1; }
+
+    /* ── DOC ACTIVITY SUB-SECTION ── */
+    .doc-sub {
+      display: none;
+      margin-top: 4px;
+      margin-bottom: 8px;
+      padding: 20px 20px 4px;
+      background: var(--gray-light);
+      border-radius: 8px;
+      border: 1px solid var(--gray-mid);
+    }
+
+    .doc-sub.visible { display: block; }
+
+    .doc-sub .sub-label {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--gray-text);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+    }
+
+    .doc-sub .options { gap: 6px; margin-bottom: 16px; }
+
+    .doc-sub .option {
+      padding: 10px 14px;
+      font-size: 14px;
+      background: var(--white);
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      border: 1.5px solid var(--gray-mid);
+      border-radius: 8px;
+      padding: 14px 16px;
+      font-size: 15px;
+      font-family: var(--font);
+      color: var(--black);
+      line-height: 1.6;
+      resize: vertical;
+      transition: border-color 0.15s;
+      background: var(--white);
+    }
+
+    textarea:focus, input[type="text"]:focus {
+      outline: none;
+      border-color: var(--black);
+    }
+
+    textarea { min-height: 100px; }
+
+    .optional-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-left: 8px;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-mid);
+    }
+
+    .btn {
+      display: inline-block;
+      background: var(--black);
+      color: var(--white);
+      padding: 14px 28px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+      transition: opacity 0.15s;
+      text-decoration: none;
+    }
+
+    .btn:hover { opacity: 0.8; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--gray-text);
+      padding: 14px 0;
+      font-size: 15px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font);
+    }
+
+    .btn-ghost:hover { color: var(--black); }
+
+    .intro-screen {
+      text-align: left;
+      padding: 60px 24px;
+      max-width: 580px;
+      margin: 0 auto;
+    }
+
+    .intro-screen h1 {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    .intro-screen p {
+      font-size: 17px;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+      line-height: 1.65;
+    }
+
+    .intro-screen p strong { color: var(--black); }
+
+    .time-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gray-text);
+      background: var(--gray-light);
+      border: 1px solid var(--gray-mid);
+      border-radius: 100px;
+      padding: 6px 14px;
+      margin-bottom: 32px;
+    }
+
+    #thank-you {
+      display: none;
+      text-align: center;
+      padding: 80px 24px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    #thank-you h2 {
+      font-size: clamp(24px, 3.5vw, 34px);
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 16px;
+    }
+
+    #thank-you p {
+      font-size: 17px;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+      line-height: 1.65;
+    }
+
+    .field-error {
+      font-size: 13px;
+      color: #c00;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .question.has-error textarea,
+    .question.has-error input {
+      border-color: #c00;
+    }
+
+    footer {
+      padding: 24px 8%;
+      border-top: 1px solid var(--gray-mid);
+      font-size: 13px;
+      color: var(--gray-text);
+      text-align: center;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+
+      header { padding: 16px 5%; }
+
+      .form-wrap { padding: 32px 18px 80px; }
+
+      .intro-screen { padding: 40px 18px; }
+
+      .step h2 { font-size: 22px; }
+
+      /* Bigger tap targets on mobile */
+      .option {
+        padding: 14px 16px;
+        font-size: 15px;
+        min-height: 52px;
+      }
+
+      /* Larger checkboxes/radios on touch */
+      .option input[type="radio"],
+      .option input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        margin-top: 0;
+        flex-shrink: 0;
+      }
+
+      /* Full-width buttons on mobile */
+      .nav {
+        flex-direction: column-reverse;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+        text-align: center;
+        padding: 16px 24px;
+        font-size: 16px;
+      }
+
+      .btn-ghost {
+        text-align: center;
+        padding: 10px 0;
+        color: var(--gray-text);
+      }
+
+      /* Textarea bigger on mobile for easier typing */
+      textarea { min-height: 90px; font-size: 16px; } /* 16px prevents iOS zoom */
+      input[type="text"] { font-size: 16px; }
+
+      /* Doc sub-sections — tighter on small screens */
+      .doc-sub { padding: 16px 14px 4px; }
+
+      /* Intro screen button full-width */
+      .intro-screen .btn { display: block; text-align: center; }
+
+      /* Thank you screen */
+      #thank-you { padding: 60px 18px; }
+    }
+
+    /* Sticky bottom nav on mobile for easier reaching */
+    @media (max-width: 600px) {
+      .nav {
+        position: sticky;
+        bottom: 0;
+        background: rgba(255,255,255,0.97);
+        padding: 16px 0 20px;
+        margin-top: 32px;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-top: 1px solid var(--gray-mid);
+        /* override the flex column from above for the sticky version */
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+      }
+
+      /* When there's a back button, keep it slim; stretch the forward button */
+      .nav .btn-ghost { flex: 0 0 auto; width: auto; }
+      .nav .btn { flex: 1; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <a class="logo" href="index.html">AI Fluency</a>
+</header>
+
+<div id="top"></div>
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progress-bar"></div>
+</div>
+<div class="progress-label" id="progress-label">Before we meet</div>
+
+<!-- ══════════════════════════════════════
+     INTRO
+══════════════════════════════════════ -->
+<div class="intro-screen" id="intro-screen">
+  <div class="time-badge">8–10 minutes</div>
+
+  <h1>A few questions before we meet.</h1>
+
+  <p>
+    I'll read through these before our session so we can <strong>get straight to building</strong>
+    rather than spending the first 20 minutes figuring out your setup.
+  </p>
+
+  <p>
+    No right answers. The more specific you are, the more useful the session will be.
+  </p>
+
+  <button class="btn" onclick="startForm()" style="margin-top: 8px; width: 100%; max-width: 280px;">Let's go &rarr;</button>
+</div>
+
+<!-- ══════════════════════════════════════
+     FORM STEPS
+══════════════════════════════════════ -->
+<div class="form-wrap" id="form-wrap" style="display:none;">
+
+  <!-- ── STEP 1: Your setup ── -->
+  <div class="step active" id="step-1">
+    <div class="step-label">Section 1 of 3 — Your setup</div>
+    <h2>How do you work day-to-day?</h2>
+    <p class="sub">Not AI stuff — just your actual work environment. Helps me know what tools we're working with.</p>
+
+    <div class="question">
+      <label class="q-label">What device will you be using in our session?</label>
+      <div class="options" id="device-options">
+        <label class="option"><input type="radio" name="device" value="Mac"> <span>Mac</span></label>
+        <label class="option"><input type="radio" name="device" value="Windows"> <span>Windows PC</span></label>
+        <label class="option"><input type="radio" name="device" value="Both"> <span>Both — I switch between them</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">How much does your phone feature in your working day?</label>
+      <div class="options" id="mobile-use-options">
+        <label class="option"><input type="radio" name="mobileUse" value="Almost never"> <span>Almost never — I work at a desk and that's where it stays</span></label>
+        <label class="option"><input type="radio" name="mobileUse" value="A little"> <span>A little — I check email and messages but not much more</span></label>
+        <label class="option"><input type="radio" name="mobileUse" value="Quite a bit"> <span>Quite a bit — I often work on my phone between meetings or on the go</span></label>
+        <label class="option"><input type="radio" name="mobileUse" value="A lot"> <span>A lot — my phone is effectively a second office</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">Would you like AI to be available on your phone too?</label>
+      <p class="q-note">Thinking about things like voice input on a commute, capturing ideas between meetings, reviewing things on the go.</p>
+      <div class="options" id="mobile-want-options">
+        <label class="option"><input type="radio" name="mobileWant" value="Yes, wherever I am"> <span>Yes — I want it wherever I am</span></label>
+        <label class="option"><input type="radio" name="mobileWant" value="Maybe if easy"> <span>Maybe — if it was easy and didn't add complexity</span></label>
+        <label class="option"><input type="radio" name="mobileWant" value="Not really"> <span>Not really — I'd rather keep AI on my desktop for now</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">Where do most of your work documents live?</label>
+      <p class="q-note">Check everything that applies.</p>
+      <div class="options" id="docs-options">
+        <label class="option"><input type="checkbox" name="docs" value="Google Drive"> <span>Google Drive / Google Workspace</span></label>
+        <label class="option"><input type="checkbox" name="docs" value="Microsoft 365"> <span>Microsoft 365 / SharePoint / OneDrive</span></label>
+        <label class="option"><input type="checkbox" name="docs" value="Notion"> <span>Notion</span></label>
+        <label class="option"><input type="checkbox" name="docs" value="Local files"> <span>Local files on my computer</span></label>
+        <label class="option"><input type="checkbox" name="docs" value="Dropbox"> <span>Dropbox or similar</span></label>
+        <label class="option"><input type="checkbox" name="docs" value="Mixed"> <span>It's a mix — different things in different places</span></label>
+        <label class="option"><input type="checkbox" name="docs" value="Other"> <span>Other</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">What tools do you use every day for work?</label>
+      <p class="q-note">Check everything you'd genuinely say you use daily.</p>
+      <div class="options" id="tools-options">
+        <label class="option"><input type="checkbox" name="tools" value="Gmail"> <span>Gmail</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Outlook"> <span>Outlook / Microsoft Mail</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Google Docs"> <span>Google Docs / Sheets / Slides</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Microsoft Office"> <span>Microsoft Word / Excel / PowerPoint</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Notion"> <span>Notion</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Slack"> <span>Slack</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Microsoft Teams"> <span>Microsoft Teams</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Zoom/Meet"> <span>Zoom / Google Meet</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Project management tool"> <span>A project management tool (Asana, Monday, ClickUp, Jira…)</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="CRM"> <span>A CRM (Salesforce, HubSpot…)</span></label>
+        <label class="option"><input type="checkbox" name="tools" value="Other"> <span>Other</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">How does your team primarily communicate?</label>
+      <div class="options" id="comms-options">
+        <label class="option"><input type="radio" name="comms" value="Mostly email"> <span>Mostly email</span></label>
+        <label class="option"><input type="radio" name="comms" value="Mostly Slack"> <span>Mostly Slack</span></label>
+        <label class="option"><input type="radio" name="comms" value="Mostly Teams"> <span>Mostly Microsoft Teams</span></label>
+        <label class="option"><input type="radio" name="comms" value="Mostly in person"> <span>Mostly in person / meetings</span></label>
+        <label class="option"><input type="radio" name="comms" value="Varies"> <span>Varies a lot depending on who I'm working with</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">
+        Anything about your work that's sensitive or confidential I should know before our session?
+        <span class="optional-tag">Optional</span>
+      </label>
+      <p class="q-note">For example: client confidentiality rules, regulated industry restrictions on third-party tools, anything you'd want to flag before sharing your screen.</p>
+      <textarea name="sensitivity" placeholder="e.g. I work with confidential client data and my firm has restrictions on third-party AI tools…" rows="3" autocomplete="off"></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-ghost" onclick="goBack()"></button>
+      <button class="btn" onclick="goNext(1)">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 2: Documents & work ── -->
+  <div class="step" id="step-2">
+    <div class="step-label">Section 2 of 3 — Your documents &amp; work</div>
+    <h2>What do you actually work with?</h2>
+    <p class="sub">This helps me know where a quick win is most likely to land — and what to build first.</p>
+
+    <div class="question">
+      <label class="q-label">Which of these do you work with regularly?</label>
+      <p class="q-note">Check everything you spend meaningful time on — I'll ask a follow-up for the ones you pick.</p>
+
+      <div class="options" id="doctypes-options">
+        <label class="option">
+          <input type="checkbox" name="docTypes" value="Word/Docs" onchange="toggleDocSub('sub-word', this.checked)">
+          <span>Word documents / Google Docs</span>
+        </label>
+        <div class="doc-sub" id="sub-word">
+          <div class="sub-label">In Word / Docs, what takes up most of your time?</div>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="actWord" value="Writing first drafts"> <span>Writing first drafts from scratch</span></label>
+            <label class="option"><input type="checkbox" name="actWord" value="Editing others drafts"> <span>Editing or improving drafts from others</span></label>
+            <label class="option"><input type="checkbox" name="actWord" value="Reviewing and summarising"> <span>Reviewing and summarising documents</span></label>
+            <label class="option"><input type="checkbox" name="actWord" value="Creating templates"> <span>Creating templates or standard documents</span></label>
+            <label class="option"><input type="checkbox" name="actWord" value="Formatting and structuring"> <span>Formatting and structuring content</span></label>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="checkbox" name="docTypes" value="Excel/Sheets" onchange="toggleDocSub('sub-excel', this.checked)">
+          <span>Excel / Google Sheets</span>
+        </label>
+        <div class="doc-sub" id="sub-excel">
+          <div class="sub-label">In Excel / Sheets, what takes up most of your time?</div>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="actExcel" value="Analysing data"> <span>Analysing data to find patterns or insights</span></label>
+            <label class="option"><input type="checkbox" name="actExcel" value="Building formulas"> <span>Building or fixing formulas</span></label>
+            <label class="option"><input type="checkbox" name="actExcel" value="Creating charts"> <span>Creating charts and visualisations</span></label>
+            <label class="option"><input type="checkbox" name="actExcel" value="Cleaning data"> <span>Cleaning, formatting, or organising data</span></label>
+            <label class="option"><input type="checkbox" name="actExcel" value="Pulling data together"> <span>Pulling data together from multiple sources</span></label>
+            <label class="option"><input type="checkbox" name="actExcel" value="Writing commentary"> <span>Writing reports or commentary based on the numbers</span></label>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="checkbox" name="docTypes" value="PowerPoint/Slides" onchange="toggleDocSub('sub-ppt', this.checked)">
+          <span>PowerPoint / Google Slides</span>
+        </label>
+        <div class="doc-sub" id="sub-ppt">
+          <div class="sub-label">In PowerPoint / Slides, what takes up most of your time?</div>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="actPpt" value="Building decks from scratch"> <span>Building decks from scratch</span></label>
+            <label class="option"><input type="checkbox" name="actPpt" value="Structuring content into slides"> <span>Turning content or notes into a slide structure</span></label>
+            <label class="option"><input type="checkbox" name="actPpt" value="Improving existing decks"> <span>Improving or redesigning existing decks</span></label>
+            <label class="option"><input type="checkbox" name="actPpt" value="Creating visuals or diagrams"> <span>Creating diagrams, visuals, or frameworks</span></label>
+            <label class="option"><input type="checkbox" name="actPpt" value="Repurposing from other formats"> <span>Turning content from other formats into slides</span></label>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="checkbox" name="docTypes" value="PDF" onchange="toggleDocSub('sub-pdf', this.checked)">
+          <span>PDFs — contracts, reports, research papers</span>
+        </label>
+        <div class="doc-sub" id="sub-pdf">
+          <div class="sub-label">With PDFs, what takes up most of your time?</div>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="actPdf" value="Reviewing contracts"> <span>Reviewing contracts or legal documents</span></label>
+            <label class="option"><input type="checkbox" name="actPdf" value="Reading reports or research"> <span>Reading and digesting long reports or research</span></label>
+            <label class="option"><input type="checkbox" name="actPdf" value="Extracting key information"> <span>Pulling out specific information from documents</span></label>
+            <label class="option"><input type="checkbox" name="actPdf" value="Summarising for others"> <span>Summarising documents for colleagues or clients</span></label>
+            <label class="option"><input type="checkbox" name="actPdf" value="Working across multiple PDFs"> <span>Cross-referencing or comparing multiple documents</span></label>
+          </div>
+        </div>
+
+        <label class="option">
+          <input type="checkbox" name="docTypes" value="Email-heavy" onchange="toggleDocSub('sub-email', this.checked)">
+          <span>Email — a significant amount of my work happens here</span>
+        </label>
+        <div class="doc-sub" id="sub-email">
+          <div class="sub-label">With email, what takes up most of your time?</div>
+          <div class="options">
+            <label class="option"><input type="checkbox" name="actEmail" value="Writing complex emails"> <span>Writing complex, sensitive, or high-stakes emails</span></label>
+            <label class="option"><input type="checkbox" name="actEmail" value="Managing high volume"> <span>Managing high volume — staying on top of a busy inbox</span></label>
+            <label class="option"><input type="checkbox" name="actEmail" value="Drafting outreach"> <span>Drafting outreach, proposals, or follow-ups</span></label>
+            <label class="option"><input type="checkbox" name="actEmail" value="Summarising threads"> <span>Catching up on or summarising long email threads</span></label>
+            <label class="option"><input type="checkbox" name="actEmail" value="Internal comms"> <span>Writing internal communications to a team or organisation</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="question" id="q-working-on">
+      <label class="q-label">What are you working on this week?</label>
+      <p class="q-note">Don't think about AI yet — just tell me what's on your plate. What are you writing, preparing, analysing, or trying to figure out?</p>
+      <textarea name="workingOnNow" placeholder="e.g. Preparing a pitch for a client, drafting a strategy document, reviewing contracts ahead of a negotiation…" rows="4"></textarea>
+      <div class="field-error">Please tell me what you're working on — this shapes the whole session.</div>
+    </div>
+
+    <div class="question" id="q-save-time">
+      <label class="q-label">If you could leave our session having saved yourself time on one specific task, what would it be?</label>
+      <p class="q-note">This is the anchor — whatever you name here is probably what we build first.</p>
+      <textarea name="taskToSaveTime" placeholder="e.g. Writing first drafts of client emails, summarising long reports, preparing meeting agendas…" rows="3"></textarea>
+      <div class="field-error">This helps me know what to prioritise — please give me something specific.</div>
+    </div>
+
+    <div class="question" id="q-hard-thinking">
+      <label class="q-label">What's the most mentally demanding thing you're working through right now?</label>
+      <p class="q-note">Could be a decision, a strategy, a difficult conversation, a complex project. This is where I'll show you AI as a thinking partner, not just a task tool.</p>
+      <textarea name="hardThinkingTask" placeholder="e.g. Figuring out how to restructure a team, preparing for a difficult client conversation, thinking through a strategic pivot…" rows="3"></textarea>
+      <div class="field-error">Even a rough answer here is really useful — don't overthink it.</div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">
+        Anything you've tried to use AI for recently that didn't work as well as you hoped?
+        <span class="optional-tag">Optional</span>
+      </label>
+      <p class="q-note">Failed attempts are often the most useful starting point — understanding why something didn't work is usually a quick fix.</p>
+      <textarea name="failedAttempt" placeholder="e.g. I tried getting it to write a proposal but the output felt generic and not like me…" rows="3"></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-ghost" onclick="goBack()">Back</button>
+      <button class="btn" onclick="goNext(2)">Continue &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: How you work best ── -->
+  <div class="step" id="step-3">
+    <div class="step-label">Section 3 of 3 — How you work best</div>
+    <h2>Last few things.</h2>
+    <p class="sub">Helps me pace the session in a way that works for you.</p>
+
+    <div class="question">
+      <label class="q-label">How do you tend to learn new things best?</label>
+      <div class="options" id="learning-options">
+        <label class="option"><input type="radio" name="learningStyle" value="Show me first"> <span>Show me first — I'll figure out the why as I go</span></label>
+        <label class="option"><input type="radio" name="learningStyle" value="Big picture first"> <span>Give me the big picture first, then show me</span></label>
+        <label class="option"><input type="radio" name="learningStyle" value="Try as we go"> <span>I like to try things myself as we go — don't just demo at me</span></label>
+        <label class="option"><input type="radio" name="learningStyle" value="Understand logic first"> <span>I like to understand the logic before I try it</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">How comfortable are you sharing your screen during the session?</label>
+      <div class="options" id="screen-options">
+        <label class="option"><input type="radio" name="screenSharing" value="Completely fine"> <span>Completely fine — happy to work live in my actual files</span></label>
+        <label class="option"><input type="radio" name="screenSharing" value="Fine but closing some windows"> <span>Fine but I might close some windows first</span></label>
+        <label class="option"><input type="radio" name="screenSharing" value="Prefer copies"> <span>I'd prefer to use examples or copies rather than live documents</span></label>
+        <label class="option"><input type="radio" name="screenSharing" value="Not sure yet"> <span>Not sure yet</span></label>
+      </div>
+    </div>
+
+    <div class="question">
+      <label class="q-label">
+        Anything else you'd like me to know before we meet?
+        <span class="optional-tag">Optional</span>
+      </label>
+      <textarea name="anythingElse" placeholder="Anything at all…" rows="3"></textarea>
+    </div>
+
+    <div class="nav">
+      <button class="btn-ghost" onclick="goBack()">Back</button>
+      <button class="btn" id="submit-btn" onclick="submitForm()">Send it &rarr;</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════
+     THANK YOU
+══════════════════════════════════════ -->
+<div id="thank-you">
+  <h2>Perfect — see you soon.</h2>
+  <p>I'll read through your answers before we meet and we'll get straight to building.</p>
+  <p style="font-size:15px;">If anything changes or you want to add something, just reply to the booking confirmation email.</p>
+</div>
+
+<footer>AI Fluency</footer>
+
+<script>
+const WEBHOOK_URL = 'YOUR_INTAKE_WEBHOOK_URL';
+
+const TOTAL_STEPS = 3;
+let currentStep = 0;
+
+// ── URL pre-fill ──
+const params = new URLSearchParams(window.location.search);
+let prefillName    = '';
+let prefillEmail   = '';
+let prefillSession = '';
+
+if (params.get('r')) {
+  try {
+    const decoded = JSON.parse(atob(params.get('r')));
+    prefillName  = decoded.name  || '';
+    prefillEmail = decoded.email || '';
+  } catch(e) {}
+}
+if (params.get('session')) {
+  prefillSession = decodeURIComponent(params.get('session'));
+}
+
+// ── Toggle doc sub-section ──
+function toggleDocSub(id, show) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('visible', show);
+}
+
+// ── Start form ──
+function startForm() {
+  document.getElementById('intro-screen').style.display = 'none';
+  document.getElementById('form-wrap').style.display = 'block';
+  currentStep = 1;
+  showStep(1);
+  updateProgress();
+}
+
+// ── Show step ──
+function showStep(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('step-' + n);
+  if (el) el.classList.add('active');
+  document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Progress ──
+function updateProgress() {
+  const pct = currentStep === 0 ? 0 : Math.round((currentStep / TOTAL_STEPS) * 100);
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-label').textContent =
+    currentStep === 0 ? 'Before we meet' : `Section ${currentStep} of ${TOTAL_STEPS}`;
+}
+
+// ── Navigate forward ──
+function goNext(fromStep) {
+  if (!validateStep(fromStep)) return;
+  currentStep = fromStep + 1;
+  showStep(currentStep);
+  updateProgress();
+}
+
+// ── Navigate back ──
+function goBack() {
+  if (currentStep <= 1) return;
+  currentStep--;
+  showStep(currentStep);
+  updateProgress();
+}
+
+// ── Validation ──
+function validateStep(step) {
+  let valid = true;
+
+  if (step === 2) {
+    ['q-working-on', 'q-save-time', 'q-hard-thinking'].forEach(id => {
+      const q  = document.getElementById(id);
+      const ta = q.querySelector('textarea');
+      const err = q.querySelector('.field-error');
+      if (!ta.value.trim()) {
+        q.classList.add('has-error');
+        err.style.display = 'block';
+        valid = false;
+      } else {
+        q.classList.remove('has-error');
+        err.style.display = 'none';
+      }
+    });
+  }
+
+  return valid;
+}
+
+// ── Collectors ──
+function getChecked(name) {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)]
+    .map(el => el.value).join(', ');
+}
+
+function getRadio(name) {
+  const el = document.querySelector(`input[name="${name}"]:checked`);
+  return el ? el.value : '';
+}
+
+function getTextarea(name) {
+  const el = document.querySelector(`textarea[name="${name}"]`);
+  return el ? el.value.trim() : '';
+}
+
+// ── Submit ──
+async function submitForm() {
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = 'Sending…';
+  btn.disabled = true;
+
+  const payload = {
+    submittedAt:      new Date().toISOString(),
+    name:             prefillName,
+    email:            prefillEmail,
+    sessionDate:      prefillSession,
+    // Setup
+    device:           getRadio('device'),
+    mobileUse:        getRadio('mobileUse'),
+    mobileWant:       getRadio('mobileWant'),
+    docsLocation:     getChecked('docs'),
+    dailyTools:       getChecked('tools'),
+    teamComms:        getRadio('comms'),
+    sensitivityFlag:  getTextarea('sensitivity'),
+    // Documents
+    docTypes:         getChecked('docTypes'),
+    actWord:          getChecked('actWord'),
+    actExcel:         getChecked('actExcel'),
+    actPpt:           getChecked('actPpt'),
+    actPdf:           getChecked('actPdf'),
+    actEmail:         getChecked('actEmail'),
+    // Work
+    workingOnNow:     getTextarea('workingOnNow'),
+    taskToSaveTime:   getTextarea('taskToSaveTime'),
+    hardThinkingTask: getTextarea('hardThinkingTask'),
+    failedAttempt:    getTextarea('failedAttempt'),
+    // Preferences
+    learningStyle:    getRadio('learningStyle'),
+    screenSharing:    getRadio('screenSharing'),
+    anythingElse:     getTextarea('anythingElse'),
+  };
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+  } catch(e) {
+    // Fail silently
+  }
+
+  document.getElementById('form-wrap').style.display = 'none';
+  document.getElementById('progress-bar').style.width = '100%';
+  document.getElementById('progress-label').textContent = 'Done';
+  document.getElementById('thank-you').style.display = 'block';
+  document.getElementById('top').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ── Option highlight ──
+document.addEventListener('change', function(e) {
+  if (e.target.type === 'radio') {
+    const group = e.target.name;
+    document.querySelectorAll(`input[name="${group}"]`).forEach(el => {
+      el.closest('.option').classList.remove('selected');
+    });
+    e.target.closest('.option').classList.add('selected');
+  }
+  if (e.target.type === 'checkbox') {
+    e.target.closest('.option').classList.toggle('selected', e.target.checked);
+  }
+});
+</script>
+
+</body>
+</html>
