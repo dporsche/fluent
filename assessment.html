@@ -904,35 +904,35 @@
 
     <div class="options">
       <label class="option">
-        <input type="radio" name="q7" value="0">
+        <input type="radio" name="mindset" value="0">
         <span class="option-text">
           I do the work, then use AI to help with parts along the way
           <span class="tag">AI is a useful tool — I reach for it when it makes sense</span>
         </span>
       </label>
       <label class="option">
-        <input type="radio" name="q7" value="1">
+        <input type="radio" name="mindset" value="1">
         <span class="option-text">
           I usually think about whether AI could help at some point, then decide
           <span class="tag">It's on my radar, but it's not the first place my mind goes</span>
         </span>
       </label>
       <label class="option">
-        <input type="radio" name="q7" value="2">
+        <input type="radio" name="mindset" value="2">
         <span class="option-text">
           I consider AI before I start — it shapes how I approach the task
           <span class="tag">I think about the setup before I dive in</span>
         </span>
       </label>
       <label class="option">
-        <input type="radio" name="q7" value="3">
+        <input type="radio" name="mindset" value="3">
         <span class="option-text">
           I deliberately slow down upfront to design my AI approach — it pays off in the execution
           <span class="tag">Invest time in the setup, go significantly faster on the work itself</span>
         </span>
       </label>
       <label class="option">
-        <input type="radio" name="q7" value="4">
+        <input type="radio" name="mindset" value="4">
         <span class="option-text">
           My first instinct is always: how can AI handle this well?
           <span class="tag">I design work around AI capabilities from the start — it's not a step, it's the default</span>
@@ -1334,7 +1334,7 @@ document.addEventListener('change', function(e) {
   const input = e.target;
 
   // Enable Next buttons for radio steps
-  const radioSteps = { q2: 'btn-2', q3: 'btn-3', q6: 'btn-6', q7: 'btn-7', q9: 'btn-10' };
+  const radioSteps = { q2: 'btn-2', q3: 'btn-3', q6: 'btn-6', mindset: 'btn-7', q9: 'btn-10' };
   if (input.type === 'radio') {
     const btnId = radioSteps[input.name];
     if (btnId) document.getElementById(btnId).disabled = false;
@@ -1358,6 +1358,10 @@ document.addEventListener('change', function(e) {
       input.closest('.option').classList.remove('selected');
     }
   }
+
+  // Recalculate score on every answer change — result is instant on submit
+  window._cachedScore = calculateScore();
+  window._cachedLevel = scoreToLevel(window._cachedScore);
 });
 
 // ══════════════════════════════════════
@@ -1394,10 +1398,10 @@ function calculateScore() {
   const q6 = document.querySelector('input[name="q6"]:checked');
   if (q6) score += parseInt(q6.value);
 
-  // Q7 mindset — AI-first thinking (0–4, high weight)
+  // Mindset — AI-first thinking (0–4, high weight)
   // This is the primary Level 5–6 discriminator: do you design work around AI, or reach for it after?
-  const q7 = document.querySelector('input[name="q7"]:checked');
-  if (q7) score += parseInt(q7.value);
+  const mindset = document.querySelector('input[name="mindset"]:checked');
+  if (mindset) score += parseInt(mindset.value);
 
   // Q9 prior impressive results (0–3)
   const q9 = document.querySelector('input[name="q9"]:checked');
@@ -1549,8 +1553,9 @@ function collectAnswers() {
   };
 
   const email = document.getElementById('contact-email').value.trim();
-  const score = calculateScore();
-  const level = scoreToLevel(score);
+  // Use cached score if available (calculated incrementally as user answered), else calculate now
+  const score = window._cachedScore !== undefined ? window._cachedScore : calculateScore();
+  const level = window._cachedLevel !== undefined ? window._cachedLevel : scoreToLevel(score);
 
   return {
     refId:          refData.id    || '',
@@ -1559,6 +1564,7 @@ function collectAnswers() {
     role:           get('q1'),
     frequency:      get('q2'),
     usageStyle:     get('q3'),
+    mindset:        get('mindset'),
     toolsSetUp:     getChecked('q4'),
     useCases:       getChecked('q5'),
     selfPerception: get('q6'),
@@ -1580,7 +1586,7 @@ function collectAnswers() {
 // ══════════════════════════════════════
 // SUBMIT
 // ══════════════════════════════════════
-async function submitSurvey() {
+function submitSurvey() {
   // Validate contact
   const name  = document.getElementById('contact-name').value.trim();
   const email = document.getElementById('contact-email').value.trim();
@@ -1593,23 +1599,18 @@ async function submitSurvey() {
   document.getElementById('contact-error').classList.add('hidden');
 
   // Hide step, show submitting
-  document.getElementById('step-13').style.display = 'none';
+  document.getElementById('step-14').style.display = 'none';
   document.getElementById('submitting').style.display = 'block';
   document.getElementById('progressLabel').textContent = '';
 
   const data = collectAnswers();
 
-  // Submit to Google Sheets via Apps Script
-  try {
-    await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: { 'Content-Type': 'application/json' }
-    });
-  } catch(e) {
-    // Silent fail — still show results even if submission fails
-    console.warn('Submission error:', e);
-  }
+  // Fire webhook in background — don't wait for it, redirect immediately
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: { 'Content-Type': 'application/json' }
+  }).catch(e => console.warn('Submission error:', e));
 
   // Redirect to results page — pass level, name, role, and their referral code
   const params = new URLSearchParams({
