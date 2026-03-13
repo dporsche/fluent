@@ -148,6 +148,17 @@
       margin-bottom: 32px;
     }
 
+    .checkbox-section-label {
+      grid-column: 1 / -1;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      padding-top: 10px;
+      margin-bottom: -2px;
+    }
+
     @media (max-width: 520px) { .checkbox-grid { grid-template-columns: 1fr; } }
 
     /* ── TEXT INPUTS ── */
@@ -484,36 +495,70 @@
 
     <div class="options" id="q1-options">
       <label class="option">
-        <input type="radio" name="q1" value="Lawyer / Legal">
-        <span class="option-text">Lawyer / Legal</span>
+        <input type="radio" name="q1" value="Legal">
+        <span class="option-text">Legal
+          <span class="tag">Lawyer, solicitor, barrister, in-house counsel, paralegal</span>
+        </span>
       </label>
       <label class="option">
-        <input type="radio" name="q1" value="Consultant / Advisory">
-        <span class="option-text">Consultant / Advisory</span>
+        <input type="radio" name="q1" value="Finance & Accounting">
+        <span class="option-text">Finance & Accounting
+          <span class="tag">CFO, FD, accountant, analyst, auditor, controller</span>
+        </span>
       </label>
       <label class="option">
-        <input type="radio" name="q1" value="Chief of Staff / Executive Support">
-        <span class="option-text">Chief of Staff / Executive Support</span>
+        <input type="radio" name="q1" value="Consulting & Advisory">
+        <span class="option-text">Consulting & Advisory
+          <span class="tag">Management consultant, strategy, advisory, professional services</span>
+        </span>
       </label>
       <label class="option">
-        <input type="radio" name="q1" value="Marketing / Brand / Content">
-        <span class="option-text">Marketing / Brand / Content</span>
+        <input type="radio" name="q1" value="Business Leadership">
+        <span class="option-text">Business Leadership
+          <span class="tag">CEO, MD, director, VP, GM, C-suite</span>
+        </span>
       </label>
       <label class="option">
-        <input type="radio" name="q1" value="Strategy / Project Management">
-        <span class="option-text">Strategy / Project Management</span>
+        <input type="radio" name="q1" value="Founder / Entrepreneur">
+        <span class="option-text">Founder / Entrepreneur
+          <span class="tag">Building something — with or without a team</span>
+        </span>
       </label>
       <label class="option">
-        <input type="radio" name="q1" value="Finance / Accounting">
-        <span class="option-text">Finance / Accounting</span>
+        <input type="radio" name="q1" value="Marketing & Comms">
+        <span class="option-text">Marketing & Comms
+          <span class="tag">Marketing, PR, brand, content, communications, social</span>
+        </span>
       </label>
       <label class="option">
-        <input type="radio" name="q1" value="Coach / Facilitator">
-        <span class="option-text">Coach / Facilitator</span>
+        <input type="radio" name="q1" value="Sales & Business Development">
+        <span class="option-text">Sales & Business Development
+          <span class="tag">Sales, BD, account management, partnerships</span>
+        </span>
       </label>
       <label class="option">
-        <input type="radio" name="q1" value="Founder / Operator">
-        <span class="option-text">Founder / Operator</span>
+        <input type="radio" name="q1" value="Operations & Chief of Staff">
+        <span class="option-text">Operations & Chief of Staff
+          <span class="tag">COO, ops manager, chief of staff, EA, project lead</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="HR & People">
+        <span class="option-text">HR & People
+          <span class="tag">HR, L&D, talent, people ops, organisational development</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Healthcare">
+        <span class="option-text">Healthcare
+          <span class="tag">Doctor, clinician, physio, practitioner, healthcare manager</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Education & Training">
+        <span class="option-text">Education & Training
+          <span class="tag">Teacher, academic, trainer, coach, facilitator, L&D</span>
+        </span>
       </label>
       <label class="option">
         <input type="radio" name="q1" value="Other">
@@ -531,43 +576,50 @@
   ══════════════════════════════════════ -->
   <div class="step" id="step-2">
     <div class="step-label">Your baseline</div>
-    <h2>How often are you using AI tools right now?</h2>
-    <p class="sub">Be honest. This is just between us.</p>
+    <h2>How would you describe your current relationship with AI tools?</h2>
+    <p class="sub">Be honest — there's no wrong answer, and it helps us calibrate everything that follows.</p>
 
     <div class="options">
       <label class="option">
         <input type="radio" name="q2" value="0">
         <span class="option-text">
-          Never, or I've barely started
-          <span class="tag">I keep meaning to but haven't really gotten going</span>
+          I haven't really started
+          <span class="tag">I know it's a thing. I just haven't made the jump yet.</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q2" value="0">
+        <span class="option-text">
+          I've tried it a few times — it didn't really land
+          <span class="tag">Got some results, wasn't sure what to do with them. Drifted away.</span>
         </span>
       </label>
       <label class="option">
         <input type="radio" name="q2" value="1">
         <span class="option-text">
-          Occasionally — when I remember
-          <span class="tag">A few times a month, if that</span>
+          Occasionally — when something specific comes up
+          <span class="tag">A few times a month. Not a habit. I still forget it's there.</span>
         </span>
       </label>
       <label class="option">
         <input type="radio" name="q2" value="2">
         <span class="option-text">
-          A few times a week
-          <span class="tag">Regularly, for specific tasks</span>
+          A few times a week, for specific tasks
+          <span class="tag">It's useful. I'm still figuring out where it fits and where it doesn't.</span>
         </span>
       </label>
       <label class="option">
         <input type="radio" name="q2" value="3">
         <span class="option-text">
-          Every day — it's part of my workflow
-          <span class="tag">I'd notice if I couldn't use it</span>
+          Most days — it's part of how I work
+          <span class="tag">I'd notice if I didn't have it. It's saved me real time.</span>
         </span>
       </label>
       <label class="option">
         <input type="radio" name="q2" value="4">
         <span class="option-text">
-          Multiple times a day, across different parts of my work
-          <span class="tag">It's genuinely changed how I operate</span>
+          Multiple times a day, across everything I do
+          <span class="tag">It's changed how I think about work, not just how I do it.</span>
         </span>
       </label>
     </div>
@@ -639,53 +691,92 @@
     <p class="sub">Check everything you've genuinely used — not just heard of.</p>
 
     <div class="checkbox-grid">
+
+      <label class="checkbox-section-label">Tools you've used</label>
+
       <label class="option">
         <input type="checkbox" name="q4" value="chatgpt">
-        <span class="option-text">ChatGPT (free or Plus)</span>
+        <span class="option-text">ChatGPT
+          <span class="tag">Free or Plus (OpenAI)</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="claude">
-        <span class="option-text">Claude (Anthropic)</span>
+        <span class="option-text">Claude
+          <span class="tag">Free or Pro (Anthropic)</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="gemini">
-        <span class="option-text">Gemini / Google AI</span>
+        <span class="option-text">Gemini
+          <span class="tag">Google AI / NotebookLM</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="copilot">
-        <span class="option-text">Copilot (Microsoft)</span>
+        <span class="option-text">Copilot
+          <span class="tag">Microsoft 365 / Bing</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="perplexity">
-        <span class="option-text">Perplexity</span>
+        <span class="option-text">Perplexity
+          <span class="tag">AI-powered research and search</span>
+        </span>
       </label>
+
+      <label class="checkbox-section-label">Things you've set up</label>
+
       <label class="option">
         <input type="checkbox" name="q4" value="projects" data-weight="2">
-        <span class="option-text">Claude / ChatGPT Projects</span>
+        <span class="option-text">Projects or memory
+          <span class="tag">Claude Projects, ChatGPT memory, persistent context</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="custom-instructions" data-weight="2">
-        <span class="option-text">Custom instructions or system prompts</span>
+        <span class="option-text">Custom instructions or a system prompt
+          <span class="tag">Told it who you are, how you work, what to call you</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="doc-upload" data-weight="2">
-        <span class="option-text">Uploading documents for analysis</span>
+        <span class="option-text">Uploaded documents for analysis
+          <span class="tag">PDFs, spreadsheets, reports — let AI read your actual work</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q4" value="claude-skills" data-weight="3">
+        <span class="option-text">Claude Skills
+          <span class="tag">Custom tools built into Claude — like a personal AI toolkit</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="custom-gpt" data-weight="3">
-        <span class="option-text">Custom GPT or Claude Skill</span>
+        <span class="option-text">Custom GPTs
+          <span class="tag">Built or used a GPT tailored for a specific job</span>
+        </span>
       </label>
+
+      <label class="checkbox-section-label">Advanced</label>
+
       <label class="option">
         <input type="checkbox" name="q4" value="claude-code" data-weight="4">
-        <span class="option-text">Claude Code / Cursor / Windsurf</span>
+        <span class="option-text">Claude Code / Cursor / Windsurf
+          <span class="tag">AI that reads and edits your actual files</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="automation" data-weight="3">
-        <span class="option-text">Zapier, Make, or similar automations</span>
+        <span class="option-text">Automations
+          <span class="tag">Zapier, Make, or similar — AI connected to other tools</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q4" value="api" data-weight="4">
-        <span class="option-text">API access — connected AI yourself</span>
+        <span class="option-text">API access
+          <span class="tag">Connected AI directly to something you built</span>
+        </span>
       </label>
     </div>
 
@@ -804,30 +895,66 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       Q7 — SLOW / REPETITIVE TASK
+       Q7 — MINDSET
   ══════════════════════════════════════ -->
   <div class="step" id="step-7">
-    <div class="step-label">Your work</div>
-    <h2>What's one thing you do regularly that feels slow, repetitive, or like it should be easier?</h2>
-    <p class="sub">Be specific — this is often what we'll work on in your first session.</p>
+    <div class="step-label">Your mindset</div>
+    <h2>When you have a new piece of work to do, what's your instinct?</h2>
+    <p class="sub">Not what you think you should do — what you actually do.</p>
 
-    <textarea name="q7" id="q7" rows="4" placeholder="e.g. Writing first drafts of client reports, summarising long emails, preparing for meetings…"></textarea>
+    <div class="options">
+      <label class="option">
+        <input type="radio" name="q7" value="0">
+        <span class="option-text">
+          I do the work, then use AI to help with parts along the way
+          <span class="tag">AI is a useful tool — I reach for it when it makes sense</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q7" value="1">
+        <span class="option-text">
+          I usually think about whether AI could help at some point, then decide
+          <span class="tag">It's on my radar, but it's not the first place my mind goes</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q7" value="2">
+        <span class="option-text">
+          I consider AI before I start — it shapes how I approach the task
+          <span class="tag">I think about the setup before I dive in</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q7" value="3">
+        <span class="option-text">
+          I deliberately slow down upfront to design my AI approach — it pays off in the execution
+          <span class="tag">Invest time in the setup, go significantly faster on the work itself</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q7" value="4">
+        <span class="option-text">
+          My first instinct is always: how can AI handle this well?
+          <span class="tag">I design work around AI capabilities from the start — it's not a step, it's the default</span>
+        </span>
+      </label>
+    </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(7)">Next &rarr;</button>
+      <button class="btn" onclick="next(7)" id="btn-7" disabled>Next &rarr;</button>
       <button class="btn-back" onclick="back(7)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
-       Q8 — HARDEST THINKING TASK
+       Q8 — SLOW / REPETITIVE TASK
   ══════════════════════════════════════ -->
   <div class="step" id="step-8">
     <div class="step-label">Your work</div>
-    <h2>What's the most mentally demanding part of your job?</h2>
-    <p class="sub">The thing that requires your best thinking — where you can't afford to be off your game.</p>
+    <h2>What's one thing you do regularly that feels slow, repetitive, or like it should be easier?</h2>
+    <p class="sub">Be specific — this is often what we'll work on in your first session.</p>
 
-    <textarea name="q8" id="q8" rows="4" placeholder="e.g. Structuring complex arguments, stakeholder management, strategic decisions under pressure…"></textarea>
+    <textarea name="q7" id="q7" rows="4" placeholder="e.g. Writing first drafts of client reports, summarising long emails, preparing for meetings…"></textarea>
 
     <div class="btn-row">
       <button class="btn" onclick="next(8)">Next &rarr;</button>
@@ -836,33 +963,49 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       Q9 — PRIOR IMPRESSIVE RESULTS
+       Q9 — HARDEST THINKING TASK
   ══════════════════════════════════════ -->
   <div class="step" id="step-9">
+    <div class="step-label">Your work</div>
+    <h2>What's the most mentally demanding part of your job?</h2>
+    <p class="sub">The thing that requires your best thinking — where you can't afford to be off your game.</p>
+
+    <textarea name="q8" id="q8" rows="4" placeholder="e.g. Structuring complex arguments, stakeholder management, strategic decisions under pressure…"></textarea>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(9)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(9)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q10 — PRIOR IMPRESSIVE RESULTS
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-10">
     <div class="step-label">Your experience</div>
     <h2>Have you had any AI results that genuinely impressed you?</h2>
 
     <div class="options">
       <label class="option">
-        <input type="radio" name="q9" value="no">
+        <input type="radio" name="q9" value="0">
         <span class="option-text">
           No — I haven't seen anything that really wowed me yet
         </span>
       </label>
       <label class="option">
-        <input type="radio" name="q9" value="once">
+        <input type="radio" name="q9" value="1">
         <span class="option-text">
           Once or twice, but I couldn't reproduce it reliably
         </span>
       </label>
       <label class="option">
-        <input type="radio" name="q9" value="few">
+        <input type="radio" name="q9" value="2">
         <span class="option-text">
           Yes — a few specific things have been genuinely useful
         </span>
       </label>
       <label class="option">
-        <input type="radio" name="q9" value="regularly">
+        <input type="radio" name="q9" value="3">
         <span class="option-text">
           Yes, regularly — it's had moments that changed how I think about my work
         </span>
@@ -870,93 +1013,67 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(9)" id="btn-9" disabled>Next &rarr;</button>
-      <button class="btn-back" onclick="back(9)">Back</button>
+      <button class="btn" onclick="next(10)" id="btn-10" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(10)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q10 — GOALS
   ══════════════════════════════════════ -->
-  <div class="step" id="step-10">
+  <div class="step" id="step-11">
     <div class="step-label">Your goals</div>
     <h2>What would make you feel like AI is really working for you?</h2>
-    <p class="sub">Pick up to 3.</p>
+    <p class="sub">Pick everything that resonates.</p>
 
     <div class="options" id="q10-options">
       <label class="option">
         <input type="checkbox" name="q10" value="save-time">
-        <span class="option-text">Saving 2–3 hours a week on things I currently do manually</span>
+        <span class="option-text">Saving real time on things I currently do manually
+          <span class="tag">Hours back every week, not minutes</span>
+        </span>
       </label>
       <label class="option">
-        <input type="checkbox" name="q10" value="better-outputs">
-        <span class="option-text">Getting better outputs — writing, thinking, decisions — than I do alone</span>
+        <input type="checkbox" name="q10" value="beyond-alone">
+        <span class="option-text">Doing work I genuinely couldn't do alone
+          <span class="tag">Better thinking, better reach, better results</span>
+        </span>
       </label>
       <label class="option">
-        <input type="checkbox" name="q10" value="confident">
-        <span class="option-text">Feeling confident and ahead, not anxious and behind</span>
+        <input type="checkbox" name="q10" value="off-plate">
+        <span class="option-text">Getting things off my plate completely — not just doing them faster
+          <span class="tag">True delegation, not just assistance</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="better-decisions">
+        <span class="option-text">Making sharper decisions with better information
+          <span class="tag">Faster, more confident, better supported</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q10" value="field-leader">
-        <span class="option-text">Being the person in my field who actually knows how to use this</span>
+        <span class="option-text">Being the person in my field who's clearly ahead — not catching up
+          <span class="tag">The one colleagues come to, not the one asking around</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q10" value="not-left-behind">
+        <span class="option-text">Not getting left behind as this accelerates
+          <span class="tag">Staying relevant as the tools and expectations keep moving</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q10" value="build-systems">
-        <span class="option-text">Building something that keeps working without me doing it every time</span>
+        <span class="option-text">Building systems that keep working without me doing it every time
+          <span class="tag">Compounding, not repeating</span>
+        </span>
       </label>
       <label class="option">
         <input type="checkbox" name="q10" value="teach-others">
-        <span class="option-text">Teaching others — sharing what I know in a way that's useful</span>
-      </label>
-      <label class="option">
-        <input type="checkbox" name="q10" value="future-ready">
-        <span class="option-text">Understanding what's coming well enough to prepare for it</span>
-      </label>
-    </div>
-    <div class="error-msg hidden" id="q10-error">Pick up to 3.</div>
-
-    <div class="btn-row">
-      <button class="btn" onclick="next(10)">Next &rarr;</button>
-      <button class="btn-back" onclick="back(10)">Back</button>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════
-       Q11 — BLOCKERS
-  ══════════════════════════════════════ -->
-  <div class="step" id="step-11">
-    <div class="step-label">Your blockers</div>
-    <h2>What's held you back from going further with AI so far?</h2>
-    <p class="sub">Check all that apply.</p>
-
-    <div class="options">
-      <label class="option">
-        <input type="checkbox" name="q11" value="too-much-noise">
-        <span class="option-text">Too many tools, too much noise — I don't know where to start</span>
-      </label>
-      <label class="option">
-        <input type="checkbox" name="q11" value="underwhelming">
-        <span class="option-text">I've tried things and the results weren't impressive</span>
-      </label>
-      <label class="option">
-        <input type="checkbox" name="q11" value="no-time">
-        <span class="option-text">I don't have time to experiment and figure it out</span>
-      </label>
-      <label class="option">
-        <input type="checkbox" name="q11" value="not-relevant">
-        <span class="option-text">I'm not sure what's relevant to my specific role</span>
-      </label>
-      <label class="option">
-        <input type="checkbox" name="q11" value="worried-wrong">
-        <span class="option-text">I worry about using it badly or getting things wrong</span>
-      </label>
-      <label class="option">
-        <input type="checkbox" name="q11" value="not-tech">
-        <span class="option-text">I don't want to become a "tech person" — I just want it to work</span>
-      </label>
-      <label class="option">
-        <input type="checkbox" name="q11" value="not-priority">
-        <span class="option-text">Honestly, I haven't made it a priority yet</span>
+        <span class="option-text">Teaching others — being the one who brings this to their team
+          <span class="tag">Multiplying the impact beyond just my own work</span>
+        </span>
       </label>
     </div>
 
@@ -967,14 +1084,75 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       Q12 — ONE YEAR VISION
+       Q12 — BLOCKERS
   ══════════════════════════════════════ -->
   <div class="step" id="step-12">
-    <div class="step-label">Your goals</div>
-    <h2>One year from now — what does your ideal relationship with AI look like?</h2>
-    <p class="sub">Big picture. No wrong answers. Just be honest.</p>
+    <div class="step-label">Your blockers</div>
+    <h2>What's held you back from going further with AI so far?</h2>
+    <p class="sub">Check all that apply.</p>
 
-    <textarea name="q12" id="q12" rows="4" placeholder="e.g. I want to feel ahead of the curve in my field, use AI every day without thinking about it, and have built systems that make me significantly more effective…"></textarea>
+    <div class="options">
+      <label class="option">
+        <input type="checkbox" name="q11" value="too-much-noise">
+        <span class="option-text">Too many tools, too much noise — I don't know where to start
+          <span class="tag">Everyone's recommending something different</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="underwhelming">
+        <span class="option-text">I've tried it but the results weren't good enough to stick with
+          <span class="tag">Got something out of it — wasn't sure it was worth the effort</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="no-time">
+        <span class="option-text">I don't have time to figure it out myself
+          <span class="tag">Happy to use it — not happy to spend hours learning how</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="not-relevant">
+        <span class="option-text">I'm not sure which parts of my work it's actually useful for
+          <span class="tag">The generic examples never quite fit what I actually do</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="trust">
+        <span class="option-text">I don't trust the outputs enough — it makes mistakes I can't afford
+          <span class="tag">High-stakes work. Getting it wrong isn't an option.</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="confidentiality">
+        <span class="option-text">I have concerns about confidentiality and sensitive data
+          <span class="tag">Client information, privileged content, data I can't share</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="policy">
+        <span class="option-text">Company policy or IT restrictions have limited what I can use
+          <span class="tag">The tools exist — I'm just not always allowed to use them freely</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="no-guide">
+        <span class="option-text">Nobody has shown me properly — I've been figuring it out alone
+          <span class="tag">No courses, no coaching, no one who actually uses it well around me</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="authenticity">
+        <span class="option-text">I worry the work won't feel like mine anymore
+          <span class="tag">Not sure where I end and the AI begins</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="checkbox" name="q11" value="not-priority">
+        <span class="option-text">Honestly, it just hasn't been a priority
+          <span class="tag">I know I should. I haven't.</span>
+        </span>
+      </label>
+    </div>
 
     <div class="btn-row">
       <button class="btn" onclick="next(12)">Next &rarr;</button>
@@ -983,9 +1161,25 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       Q13 — CONTACT (hidden if ref link)
+       Q13 — ONE YEAR VISION
   ══════════════════════════════════════ -->
   <div class="step" id="step-13">
+    <div class="step-label">Your goals</div>
+    <h2>One year from now — what does your ideal relationship with AI look like?</h2>
+    <p class="sub">Big picture. No wrong answers. Just be honest.</p>
+
+    <textarea name="q12" id="q12" rows="4" placeholder="e.g. I want to feel ahead of the curve in my field, use AI every day without thinking about it, and have built systems that make me significantly more effective…"></textarea>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(13)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(13)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q13 — CONTACT (hidden if ref link)
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-14">
     <div class="step-label">Almost there</div>
     <h2>Where should we send your results?</h2>
     <p class="sub">We'll email you a summary — including your roadmap and recommended next step.</p>
@@ -1004,7 +1198,7 @@
 
     <div class="btn-row">
       <button class="btn" onclick="submitSurvey()" id="btn-submit">See my results &rarr;</button>
-      <button class="btn-back" onclick="back(13)">Back</button>
+      <button class="btn-back" onclick="back(14)">Back</button>
     </div>
   </div>
 
@@ -1100,7 +1294,7 @@ function generateRefCode(email) {
 // ══════════════════════════════════════
 // STEP MANAGEMENT
 // ══════════════════════════════════════
-const TOTAL_STEPS = 13;
+const TOTAL_STEPS = 14;
 let current = 0; // 0 = welcome
 
 function showStep(n) {
@@ -1128,15 +1322,6 @@ function showStep(n) {
 function startSurvey() { showStep(1); }
 
 function next(from) {
-  // Validation per step
-  if (from === 10) {
-    const checked = document.querySelectorAll('input[name="q10"]:checked');
-    if (checked.length > 3) {
-      document.getElementById('q10-error').classList.remove('hidden');
-      return;
-    }
-    document.getElementById('q10-error').classList.add('hidden');
-  }
   showStep(from + 1);
 }
 
@@ -1149,7 +1334,7 @@ document.addEventListener('change', function(e) {
   const input = e.target;
 
   // Enable Next buttons for radio steps
-  const radioSteps = { q2: 'btn-2', q3: 'btn-3', q6: 'btn-6', q9: 'btn-9' };
+  const radioSteps = { q2: 'btn-2', q3: 'btn-3', q6: 'btn-6', q7: 'btn-7', q9: 'btn-10' };
   if (input.type === 'radio') {
     const btnId = radioSteps[input.name];
     if (btnId) document.getElementById(btnId).disabled = false;
@@ -1189,11 +1374,14 @@ function calculateScore() {
   const q3 = document.querySelector('input[name="q3"]:checked');
   if (q3) score += parseInt(q3.value);
 
-  // Q4 tools (weighted)
+  // Q4 tools (weighted, capped at 8)
+  // Checking more tools shows awareness, not mastery — cap prevents tool-ticking from inflating level
+  let q4score = 0;
   document.querySelectorAll('input[name="q4"]:checked').forEach(cb => {
     const weight = parseInt(cb.getAttribute('data-weight') || '1');
-    score += weight;
+    q4score += weight;
   });
+  score += Math.min(q4score, 8);
 
   // Q5 use cases (weighted)
   document.querySelectorAll('input[name="q5"]:checked').forEach(cb => {
@@ -1206,15 +1394,33 @@ function calculateScore() {
   const q6 = document.querySelector('input[name="q6"]:checked');
   if (q6) score += parseInt(q6.value);
 
+  // Q7 mindset — AI-first thinking (0–4, high weight)
+  // This is the primary Level 5–6 discriminator: do you design work around AI, or reach for it after?
+  const q7 = document.querySelector('input[name="q7"]:checked');
+  if (q7) score += parseInt(q7.value);
+
+  // Q9 prior impressive results (0–3)
+  const q9 = document.querySelector('input[name="q9"]:checked');
+  if (q9) score += parseInt(q9.value);
+
   return score;
 }
 
+// Scoring model (max ≈ 46):
+// Q2 frequency:       0–4
+// Q3 usage pattern:   0–4
+// Q4 tools (capped):  0–8   (uncapped max ~28, but tools ≠ mastery)
+// Q5 use cases:       0–19
+// Q6 self-perception: 0–4
+// Q7 mindset:         0–4   (AI-first thinking — primary L5/L6 discriminator)
+// Q9 prior wins:      0–3
+
 function scoreToLevel(score) {
-  if (score <= 4)  return 1;
-  if (score <= 9)  return 2;
-  if (score <= 15) return 3;
-  if (score <= 22) return 4;
-  if (score <= 30) return 5;
+  if (score <= 5)  return 1;
+  if (score <= 12) return 2;
+  if (score <= 20) return 3;
+  if (score <= 29) return 4;
+  if (score <= 38) return 5;
   return 6;
 }
 

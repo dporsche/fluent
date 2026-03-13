@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Fluency — Program Overview</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #0f0f0f;
+      --white: #ffffff;
+      --gray-light: #f5f5f5;
+      --gray-mid: #e0e0e0;
+      --gray-text: #555;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.65;
+      font-size: 17px;
+      max-width: 740px;
+      margin: 0 auto;
+      padding: 60px 40px 100px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 40px 24px 80px; }
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 36px;
+      border-bottom: 2px solid var(--black);
+      margin-bottom: 48px;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+
+    .doc-label {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      text-align: right;
+      line-height: 1.6;
+    }
+
+    /* ── TAGLINE BLOCK ── */
+    .tagline-block {
+      margin-bottom: 52px;
+    }
+
+    .tagline-block h1 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    .tagline-block .sub {
+      font-size: 19px;
+      color: var(--gray-text);
+      max-width: 560px;
+      line-height: 1.6;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: 16px;
+    }
+
+    .section h2 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .section p {
+      color: var(--gray-text);
+      margin-bottom: 14px;
+      font-size: 16px;
+    }
+
+    .section p strong { color: var(--black); }
+
+    /* ── DIVIDER ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--gray-mid);
+      margin: 48px 0;
+    }
+
+    /* ── LEVELS TABLE ── */
+    .levels {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      margin-top: 8px;
+    }
+
+    .levels th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      padding: 0 0 10px;
+      border-bottom: 1px solid var(--gray-mid);
+    }
+
+    .levels td {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      vertical-align: top;
+      color: var(--gray-text);
+    }
+
+    .levels td:first-child {
+      width: 110px;
+      font-weight: 700;
+      color: var(--black);
+      padding-right: 16px;
+    }
+
+    .levels tr:last-child td { border-bottom: none; }
+
+    /* ── STEPS ── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .step-row {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--gray-mid);
+      align-items: start;
+    }
+
+    .step-row:last-child { border-bottom: none; }
+
+    .step-num {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--gray-mid);
+      line-height: 1;
+      padding-top: 2px;
+    }
+
+    .step-row h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-row p {
+      font-size: 15px;
+      color: var(--gray-text);
+      margin: 0;
+    }
+
+    /* ── PRICING BOX ── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 520px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+
+    .price-card {
+      border: 1px solid var(--gray-mid);
+      border-radius: 8px;
+      padding: 22px 24px;
+    }
+
+    .price-card.highlight {
+      border-color: var(--black);
+      border-width: 2px;
+    }
+
+    .price-card .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-text);
+      margin-bottom: 6px;
+    }
+
+    .price-card .label.featured { color: var(--black); }
+
+    .price-card .price {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+    }
+
+    .price-card .description {
+      font-size: 14px;
+      color: var(--gray-text);
+      line-height: 1.5;
+    }
+
+    /* ── QUOTE ── */
+    .pull-quote {
+      border-left: 3px solid var(--black);
+      padding: 4px 0 4px 20px;
+      margin: 24px 0;
+      font-size: 19px;
+      font-weight: 600;
+      line-height: 1.45;
+      letter-spacing: -0.3px;
+    }
+
+    /* ── NEXT STEP ── */
+    .next-step {
+      background: var(--black);
+      color: var(--white);
+      border-radius: 10px;
+      padding: 36px 40px;
+      margin-top: 52px;
+    }
+
+    .next-step .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 12px;
+    }
+
+    .next-step h2 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    .next-step p {
+      font-size: 16px;
+      color: #bbb;
+      margin-bottom: 24px;
+    }
+
+    .next-step .btn {
+      display: inline-block;
+      background: var(--white);
+      color: var(--black);
+      padding: 13px 24px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      margin-right: 12px;
+      margin-bottom: 10px;
+    }
+
+    .next-step .btn:hover { opacity: 0.9; }
+
+    .next-step .or {
+      font-size: 14px;
+      color: #888;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--gray-mid);
+      font-size: 13px;
+      color: var(--gray-text);
+      display: flex;
+      justify-content: space-between;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">AI Fluency</div>
+  <div class="doc-label">
+    Program Overview<br>
+    Founding cohort · 2025
+  </div>
+</div>
+
+
+<!-- TAGLINE -->
+<div class="tagline-block">
+  <h1>The only way to become<br>fluent is to start speaking.</h1>
+  <p class="sub">
+    AI fluency is the professional skill of this decade — not coding, not prompting tricks,
+    but the ability to use AI to think better, work faster, and stay relevant
+    as the tools keep changing. It's learnable. Most people just haven't been taught properly.
+  </p>
+</div>
+
+
+<!-- THE PROBLEM -->
+<div class="section">
+  <div class="section-label">The Problem</div>
+  <h2>Most professionals are using AI like a smarter Google.<br>That's not fluency.</h2>
+
+  <p>
+    They've opened ChatGPT. Maybe watched a few videos. Got occasional results. But
+    <strong>nothing has stuck, nothing has changed how they actually work,</strong>
+    and somewhere in the background is the quiet worry: what if this is the gap
+    that matters?
+  </p>
+
+  <p>
+    The people pulling ahead aren't smarter. They have a system for keeping up —
+    and someone who made it real for their actual job.
+  </p>
+
+  <div class="pull-quote">
+    "You're not behind. You're just untrained."
+  </div>
+</div>
+
+<hr>
+
+<!-- THE MODEL -->
+<div class="section">
+  <div class="section-label">The Model</div>
+  <h2>Six levels. One clear journey.</h2>
+
+  <p>
+    Everyone is somewhere on a spectrum from "knows AI matters but hasn't started"
+    to "designs work AI-natively and trains others." The assessment places you on it.
+    The program moves you up it.
+  </p>
+
+  <table class="levels">
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>What it looks like</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1 · Curious</td>
+        <td>Knows AI matters. Hasn't used it consistently. Interested but not activated.</td>
+      </tr>
+      <tr>
+        <td>2 · Tourist</td>
+        <td>Uses AI occasionally, like a smarter Google. Starts from scratch every time.</td>
+      </tr>
+      <tr>
+        <td>3 · Regular</td>
+        <td>Gets real value several times a week, but results are inconsistent.</td>
+      </tr>
+      <tr>
+        <td>4 · Builder</td>
+        <td>Has set up a real workflow. Uses AI for strategy and decisions, not just writing.</td>
+      </tr>
+      <tr>
+        <td>5 · Fluent</td>
+        <td>Reliable output on complex tasks. Becomes the "AI person" on their team.</td>
+      </tr>
+      <tr>
+        <td>6 · Native</td>
+        <td>Designs work AI-natively from scratch. Trains others. Shapes how their field uses AI.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p style="margin-top: 18px; font-size: 14px; color: var(--gray-text);">
+    Most clients come in at Level 2–3 and reach Level 4–5. That's a genuine, measurable win —
+    and Level 6 gives the journey an open ceiling.
+  </p>
+</div>
+
+<hr>
+
+<!-- HOW IT WORKS -->
+<div class="section">
+  <div class="section-label">How It Works</div>
+  <h2>Assess → Install → Stay current.</h2>
+
+  <div class="steps">
+    <div class="step-row">
+      <div class="step-num">01</div>
+      <div>
+        <h3>Assess — Find your level</h3>
+        <p>
+          The AI Fluency Assessment takes 5–7 minutes and maps exactly where you are.
+          You see your level, what's holding you back, and what becomes possible from here.
+          Results are read before your session — you arrive and we build, not orient.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">02</div>
+      <div>
+        <h3>Install — First session</h3>
+        <p>
+          A 1:1 session — in person or on a call — built entirely around your actual work.
+          Not a demo. Not a walkthrough. We install your setup, build your first real workflow
+          live, and you leave with something working. Guaranteed.
+        </p>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-num">03</div>
+      <div>
+        <h3>Stay current — as the landscape moves</h3>
+        <p>
+          AI is a living language. New tools, new capabilities, new ways of working —
+          constantly. The subscription filters what matters for your level and role,
+          translates it into plain language, and delivers a specific next step every week.
+          Not more noise. Less.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<!-- THE KEY INSIGHT -->
+<div class="section">
+  <div class="section-label">The Key Insight</div>
+  <h2>Getting ahead is a session.<br>Staying ahead is a practice.</h2>
+
+  <p>
+    Spanish doesn't change much — you can become fluent and coast.
+    AI is a living language. New vocabulary (tools), new grammar (capabilities),
+    new dialects (use cases) appearing constantly.
+  </p>
+
+  <p>
+    <strong>Fluency here requires ongoing practice AND ongoing learning as the language itself evolves.</strong>
+    That's the honest argument for the subscription — and the honest answer to "do I need this forever?"
+    You need it until staying current is a habit you've built. At Level 5, most people have it.
+  </p>
+</div>
+
+<hr>
+
+<!-- PRICING -->
+<div class="section">
+  <div class="section-label">Founding Cohort Pricing</div>
+  <h2>First access at a price that won't exist again.</h2>
+
+  <p>
+    Founding clients get more time, more discovery, and more direct input into what the
+    program becomes. In return, the price reflects that this is session 1–8, not a finished product.
+  </p>
+
+  <div class="pricing-grid">
+    <div class="price-card">
+      <div class="label">Install Session</div>
+      <div class="price">£150</div>
+      <div class="description">1:1 session. Your setup built live. A working system on day one.</div>
+    </div>
+    <div class="price-card highlight">
+      <div class="label featured">Install + 30 Days</div>
+      <div class="price">£300–350</div>
+      <div class="description">Install session plus 30-day guided program. First full level jump, documented.</div>
+    </div>
+  </div>
+
+  <p style="margin-top: 16px; font-size: 14px; color: var(--gray-text);">
+    Subscription pricing TBD after first deliveries. Likely monthly.
+    This qualifies as professional development — most clients expense it through L&amp;D budgets.
+  </p>
+</div>
+
+<hr>
+
+<!-- WHO IT'S FOR -->
+<div class="section">
+  <div class="section-label">Who It's For</div>
+  <h2>Smart, senior, non-technical professionals.</h2>
+
+  <p>
+    Lawyers, consultants, finance professionals, marketers, managers, founders, chiefs of staff —
+    anyone who uses a computer for a large part of their work and doesn't want AI to become
+    the gap in their skillset.
+  </p>
+
+  <p>
+    <strong>What they have in common:</strong> quietly competitive, short on time to figure this out
+    themselves, and waiting for a trusted person to say "here, this is what you actually need."
+  </p>
+
+  <p>
+    Not for engineers or full-time AI practitioners — they're already ahead.
+    Not for people who want a course to add to their list. For people who want it to work.
+  </p>
+</div>
+
+
+<!-- NEXT STEP -->
+<div class="next-step">
+  <div class="label">Next Step</div>
+  <h2>Start with the assessment.<br>It takes 5 minutes.</h2>
+  <p>
+    You'll see exactly where you are, what it means, and what the path forward looks like.
+    If it resonates, we'll book a session and build something real.
+  </p>
+  <a class="btn" href="assessment.html">Take the Assessment →</a>
+  <span class="or">or</span>
+  <a class="btn" href="YOUR_CALENDLY_LINK" target="_blank" style="background: transparent; color: #aaa; border: 1px solid #444; margin-left: 8px;">Book a call directly</a>
+</div>
+
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>AI Fluency &nbsp;·&nbsp; dporsche.github.io/fluent</span>
+  <span>Questions? <a href="mailto:DaddyEntrepreneur@gmail.com" style="color: inherit;">DaddyEntrepreneur@gmail.com</a></span>
+</div>
+
+</body>
+</html>
