@@ -491,9 +491,8 @@
   <div class="step" id="step-1">
     <div class="step-label">About you</div>
     <h2>What's your name?</h2>
-    <p class="sub">First name is fine.</p>
 
-    <input type="text" id="contact-name" placeholder="First name is fine" autocomplete="given-name">
+    <input type="text" id="contact-name" placeholder="Your name" autocomplete="name">
 
     <div class="btn-row">
       <button class="btn" onclick="next(1)" id="btn-1" disabled>Next &rarr;</button>
@@ -573,6 +572,12 @@
         <input type="radio" name="q1" value="Education & Training">
         <span class="option-text">Education & Training
           <span class="tag">Teacher, academic, trainer, coach, facilitator, L&D</span>
+        </span>
+      </label>
+      <label class="option">
+        <input type="radio" name="q1" value="Technology & Engineering">
+        <span class="option-text">Technology & Engineering
+          <span class="tag">Developer, engineer, QA, product, data analyst, tech lead</span>
         </span>
       </label>
       <label class="option">
@@ -794,6 +799,18 @@
           <span class="tag">Connected AI directly to something you built</span>
         </span>
       </label>
+
+      <label class="checkbox-section-label">Other</label>
+
+      <label class="option" style="grid-column:1/-1;">
+        <input type="checkbox" name="q4" value="other" id="q4-other-checkbox">
+        <span class="option-text">Something else
+          <span class="tag">A tool or setup not listed above</span>
+        </span>
+      </label>
+      <div id="q4-other-wrap" class="hidden" style="grid-column:1/-1;">
+        <input type="text" id="q4-other-text" placeholder="What have you used or set up?" style="margin-bottom:0;">
+      </div>
     </div>
 
     <div class="btn-row">
@@ -1209,17 +1226,10 @@
         </div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--gray-light);border-radius:8px;">
-        <span style="font-size:18px;line-height:1">🗺️</span>
-        <div>
-          <div style="font-weight:700;font-size:15px;">Your personal roadmap</div>
-          <div style="font-size:14px;color:var(--gray-text);margin-top:2px;">Specific next steps based on your role, your tools, and what you actually do at work.</div>
-        </div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--gray-light);border-radius:8px;">
         <span style="font-size:18px;line-height:1">⚡</span>
         <div>
-          <div style="font-weight:700;font-size:15px;">The fastest path to Level 4+</div>
-          <div style="font-size:14px;color:var(--gray-text);margin-top:2px;">Most people waste months on generic advice. We'll tell you exactly where to start.</div>
+          <div style="font-weight:700;font-size:15px;">What's actually holding you back</div>
+          <div style="font-size:14px;color:var(--gray-text);margin-top:2px;">A plain-English explanation of where you are and the one thing that would move you forward fastest.</div>
         </div>
       </div>
     </div>
@@ -1327,6 +1337,12 @@ let referredByCode = ''; // referral code of whoever sent this person the link
 // Enable step-1 Next button when name is typed
 document.getElementById('contact-name').addEventListener('input', function() {
   document.getElementById('btn-1').disabled = !this.value.trim();
+});
+
+// Show/hide "Other" text input in tools section
+document.getElementById('q4-other-checkbox').addEventListener('change', function() {
+  document.getElementById('q4-other-wrap').classList.toggle('hidden', !this.checked);
+  if (this.checked) document.getElementById('q4-other-text').focus();
 });
 
 // Stable referral code derived from email — same algorithm as Apps Script
@@ -1612,7 +1628,12 @@ function collectAnswers() {
     frequency:      get('q2'),
     usageStyle:     get('q3'),
     mindset:        get('mindset'),
-    toolsSetUp:     getChecked('q4'),
+    toolsSetUp:     (function() {
+      const checked = getChecked('q4');
+      const otherText = document.getElementById('q4-other-text').value.trim();
+      if (otherText) return checked ? checked + ', other: ' + otherText : 'other: ' + otherText;
+      return checked;
+    })(),
     useCases:       getChecked('q5'),
     selfPerception: get('q6'),
     slowTask:       document.getElementById('q7').value.trim(),
