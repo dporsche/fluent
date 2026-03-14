@@ -486,9 +486,24 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       Q1 — ROLE
+       Q1 — NAME
   ══════════════════════════════════════ -->
   <div class="step" id="step-1">
+    <div class="step-label">About you</div>
+    <h2>What's your name?</h2>
+    <p class="sub">First name is fine.</p>
+
+    <input type="text" id="contact-name" placeholder="First name is fine" autocomplete="given-name">
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(1)" id="btn-1" disabled>Next &rarr;</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q2 — ROLE
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-2">
     <div class="step-label">About you</div>
     <h2>What's your role?</h2>
     <p class="sub">We'll tailor everything to your specific world.</p>
@@ -567,14 +582,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(1)" id="btn-1" disabled>Next &rarr;</button>
+      <button class="btn" onclick="next(2)" id="btn-2" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(2)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q2 — FREQUENCY
   ══════════════════════════════════════ -->
-  <div class="step" id="step-2">
+  <div class="step" id="step-3">
     <div class="step-label">Your baseline</div>
     <h2>How would you describe your current relationship with AI tools?</h2>
     <p class="sub">Be honest — there's no wrong answer, and it helps us calibrate everything that follows.</p>
@@ -625,15 +641,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(2)" id="btn-2" disabled>Next &rarr;</button>
-      <button class="btn-back" onclick="back(2)">Back</button>
+      <button class="btn" onclick="next(3)" id="btn-3" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(3)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q3 — USAGE PATTERN
   ══════════════════════════════════════ -->
-  <div class="step" id="step-3">
+  <div class="step" id="step-4">
     <div class="step-label">Your baseline</div>
     <h2>When you use AI, what does it usually look like?</h2>
     <p class="sub">Pick the one that's most honest — even if it's a bit humbling.</p>
@@ -677,15 +693,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(3)" id="btn-3" disabled>Next &rarr;</button>
-      <button class="btn-back" onclick="back(3)">Back</button>
+      <button class="btn" onclick="next(4)" id="btn-4" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(4)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q4 — TOOLS SET UP
   ══════════════════════════════════════ -->
-  <div class="step" id="step-4">
+  <div class="step" id="step-5">
     <div class="step-label">Your setup</div>
     <h2>What have you actually tried or set up?</h2>
     <p class="sub">Check everything you've genuinely used — not just heard of.</p>
@@ -781,15 +797,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(4)">Next &rarr;</button>
-      <button class="btn-back" onclick="back(4)">Back</button>
+      <button class="btn" onclick="next(5)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(5)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q5 — USE CASES
   ══════════════════════════════════════ -->
-  <div class="step" id="step-5">
+  <div class="step" id="step-6">
     <div class="step-label">Your baseline</div>
     <h2>What have you used AI for in the last month?</h2>
     <p class="sub">Check everything that actually happened.</p>
@@ -842,15 +858,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(5)">Next &rarr;</button>
-      <button class="btn-back" onclick="back(5)">Back</button>
+      <button class="btn" onclick="next(6)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(6)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q6 — SELF PERCEPTION
   ══════════════════════════════════════ -->
-  <div class="step" id="step-6">
+  <div class="step" id="step-7">
     <div class="step-label">Your baseline</div>
     <h2>Finish this sentence honestly.</h2>
     <p class="sub">"When I think about where AI is going and how I'm keeping up…"</p>
@@ -889,15 +905,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(6)" id="btn-6" disabled>Next &rarr;</button>
-      <button class="btn-back" onclick="back(6)">Back</button>
+      <button class="btn" onclick="next(7)" id="btn-7" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(7)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q7 — MINDSET
   ══════════════════════════════════════ -->
-  <div class="step" id="step-7">
+  <div class="step" id="step-8">
     <div class="step-label">Your mindset</div>
     <h2>When you have a new piece of work to do, what's your instinct?</h2>
     <p class="sub">Not what you think you should do — what you actually do.</p>
@@ -941,36 +957,20 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(7)" id="btn-7" disabled>Next &rarr;</button>
-      <button class="btn-back" onclick="back(7)">Back</button>
+      <button class="btn" onclick="next(8)" id="btn-8" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(8)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q8 — SLOW / REPETITIVE TASK
   ══════════════════════════════════════ -->
-  <div class="step" id="step-8">
+  <div class="step" id="step-9">
     <div class="step-label">Your work</div>
     <h2>What's one thing you do regularly that feels slow, repetitive, or like it should be easier?</h2>
     <p class="sub">Be specific — this is often what we'll work on in your first session.</p>
 
     <textarea name="q7" id="q7" rows="4" placeholder="e.g. Writing first drafts of client reports, summarising long emails, preparing for meetings…"></textarea>
-
-    <div class="btn-row">
-      <button class="btn" onclick="next(8)">Next &rarr;</button>
-      <button class="btn-back" onclick="back(8)">Back</button>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════
-       Q9 — HARDEST THINKING TASK
-  ══════════════════════════════════════ -->
-  <div class="step" id="step-9">
-    <div class="step-label">Your work</div>
-    <h2>What's the most mentally demanding part of your job?</h2>
-    <p class="sub">The thing that requires your best thinking — where you can't afford to be off your game.</p>
-
-    <textarea name="q8" id="q8" rows="4" placeholder="e.g. Structuring complex arguments, stakeholder management, strategic decisions under pressure…"></textarea>
 
     <div class="btn-row">
       <button class="btn" onclick="next(9)">Next &rarr;</button>
@@ -979,9 +979,25 @@
   </div>
 
   <!-- ══════════════════════════════════════
-       Q10 — PRIOR IMPRESSIVE RESULTS
+       Q9 — HARDEST THINKING TASK
   ══════════════════════════════════════ -->
   <div class="step" id="step-10">
+    <div class="step-label">Your work</div>
+    <h2>What's the most mentally demanding part of your job?</h2>
+    <p class="sub">The thing that requires your best thinking — where you can't afford to be off your game.</p>
+
+    <textarea name="q8" id="q8" rows="4" placeholder="e.g. Structuring complex arguments, stakeholder management, strategic decisions under pressure…"></textarea>
+
+    <div class="btn-row">
+      <button class="btn" onclick="next(10)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(10)">Back</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       Q10 — PRIOR IMPRESSIVE RESULTS
+  ══════════════════════════════════════ -->
+  <div class="step" id="step-11">
     <div class="step-label">Your experience</div>
     <h2>Have you had any AI results that genuinely impressed you?</h2>
 
@@ -1013,15 +1029,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(10)" id="btn-10" disabled>Next &rarr;</button>
-      <button class="btn-back" onclick="back(10)">Back</button>
+      <button class="btn" onclick="next(11)" id="btn-11" disabled>Next &rarr;</button>
+      <button class="btn-back" onclick="back(11)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q10 — GOALS
   ══════════════════════════════════════ -->
-  <div class="step" id="step-11">
+  <div class="step" id="step-12">
     <div class="step-label">Your goals</div>
     <h2>What would make you feel like AI is really working for you?</h2>
     <p class="sub">Pick everything that resonates.</p>
@@ -1078,15 +1094,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(11)">Next &rarr;</button>
-      <button class="btn-back" onclick="back(11)">Back</button>
+      <button class="btn" onclick="next(12)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(12)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q12 — BLOCKERS
   ══════════════════════════════════════ -->
-  <div class="step" id="step-12">
+  <div class="step" id="step-13">
     <div class="step-label">Your blockers</div>
     <h2>What's held you back from going further with AI so far?</h2>
     <p class="sub">Check all that apply.</p>
@@ -1155,15 +1171,15 @@
     </div>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(12)">Next &rarr;</button>
-      <button class="btn-back" onclick="back(12)">Back</button>
+      <button class="btn" onclick="next(13)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(13)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
        Q13 — ONE YEAR VISION
   ══════════════════════════════════════ -->
-  <div class="step" id="step-13">
+  <div class="step" id="step-14">
     <div class="step-label">Your goals</div>
     <h2>One year from now — what does your ideal relationship with AI look like?</h2>
     <p class="sub">Big picture. No wrong answers. Just be honest.</p>
@@ -1171,34 +1187,55 @@
     <textarea name="q12" id="q12" rows="4" placeholder="e.g. I want to feel ahead of the curve in my field, use AI every day without thinking about it, and have built systems that make me significantly more effective…"></textarea>
 
     <div class="btn-row">
-      <button class="btn" onclick="next(13)">Next &rarr;</button>
-      <button class="btn-back" onclick="back(13)">Back</button>
+      <button class="btn" onclick="next(14)">Next &rarr;</button>
+      <button class="btn-back" onclick="back(14)">Back</button>
     </div>
   </div>
 
   <!-- ══════════════════════════════════════
-       Q13 — CONTACT (hidden if ref link)
+       Q15 — CONTACT
   ══════════════════════════════════════ -->
-  <div class="step" id="step-14">
+  <div class="step" id="step-15">
     <div class="step-label">Almost there</div>
     <h2>Where should we send your results?</h2>
-    <p class="sub">We'll email you a summary — including your roadmap and recommended next step.</p>
+    <p class="sub">You've just answered 14 questions about how you work. Here's what you'll get:</p>
 
-    <div class="field-group" id="name-field">
-      <label for="contact-name">Your name</label>
-      <input type="text" id="contact-name" placeholder="First name is fine">
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:28px;">
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--gray-light);border-radius:8px;">
+        <span style="font-size:18px;line-height:1">📊</span>
+        <div>
+          <div style="font-weight:700;font-size:15px;">Your AI Fluency Level</div>
+          <div style="font-size:14px;color:var(--gray-text);margin-top:2px;">A clear picture of where you are — and what's holding you back from the next level.</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--gray-light);border-radius:8px;">
+        <span style="font-size:18px;line-height:1">🗺️</span>
+        <div>
+          <div style="font-weight:700;font-size:15px;">Your personal roadmap</div>
+          <div style="font-size:14px;color:var(--gray-text);margin-top:2px;">Specific next steps based on your role, your tools, and what you actually do at work.</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;background:var(--gray-light);border-radius:8px;">
+        <span style="font-size:18px;line-height:1">⚡</span>
+        <div>
+          <div style="font-weight:700;font-size:15px;">The fastest path to Level 4+</div>
+          <div style="font-size:14px;color:var(--gray-text);margin-top:2px;">Most people waste months on generic advice. We'll tell you exactly where to start.</div>
+        </div>
+      </div>
     </div>
 
     <div class="field-group" id="email-field">
       <label for="contact-email">Your email</label>
-      <input type="email" id="contact-email" placeholder="you@example.com">
+      <input type="email" id="contact-email" placeholder="you@example.com" autocomplete="email">
     </div>
 
-    <div class="error-msg hidden" id="contact-error">Please enter your name and a valid email.</div>
+    <div class="error-msg hidden" id="contact-error">Please enter a valid email address.</div>
+
+    <p style="font-size:13px;color:var(--gray-text);margin-top:-12px;margin-bottom:24px;">No spam. Just your results and one follow-up if you want to book a session.</p>
 
     <div class="btn-row">
-      <button class="btn" onclick="submitSurvey()" id="btn-submit">See my results &rarr;</button>
-      <button class="btn-back" onclick="back(14)">Back</button>
+      <button class="btn" onclick="submitSurvey()" id="btn-submit">Send my results &rarr;</button>
+      <button class="btn-back" onclick="back(15)">Back</button>
     </div>
   </div>
 
@@ -1246,8 +1283,15 @@
 // ══════════════════════════════════════
 // CONFIG — update these before going live
 // ══════════════════════════════════════
-const APPS_SCRIPT_URL = 'https://hook.eu1.make.com/wlsgs7k0bgl6djblgpk27s3m7jhsdaa0';
+// Deploy google-apps-script.gs as a Web App (Execute as: Me, Who has access: Anyone)
+// then paste the deployment URL below. No Make required.
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxBOkjpmSpVut0BH-XQKuuIO94zvP533Axe53i0Oqg0p6UpjmJrBlPCpIPJhvft4reg/exec';
 const CALENDLY_URL    = 'https://calendly.com/dmitriy-portnyagin/ai-install-session';
+
+// ══════════════════════════════════════
+// SESSION ID — stable identifier for upserts even without email
+// ══════════════════════════════════════
+window._sessionId = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2));
 
 // ══════════════════════════════════════
 // REFERRER LINK HANDLING
@@ -1266,7 +1310,7 @@ let referredByCode = ''; // referral code of whoever sent this person the link
       refData = JSON.parse(atob(r));
       if (refData.name) {
         document.getElementById('contact-name').value = refData.name;
-        document.getElementById('name-field').classList.add('hidden');
+        document.getElementById('btn-1').disabled = false; // enable step-1 next button
       }
       if (refData.email) {
         document.getElementById('contact-email').value = refData.email;
@@ -1279,6 +1323,11 @@ let referredByCode = ''; // referral code of whoever sent this person the link
   const ref = params.get('ref');
   if (ref) referredByCode = ref;
 })();
+
+// Enable step-1 Next button when name is typed
+document.getElementById('contact-name').addEventListener('input', function() {
+  document.getElementById('btn-1').disabled = !this.value.trim();
+});
 
 // Stable referral code derived from email — same algorithm as Apps Script
 function generateRefCode(email) {
@@ -1294,7 +1343,7 @@ function generateRefCode(email) {
 // ══════════════════════════════════════
 // STEP MANAGEMENT
 // ══════════════════════════════════════
-const TOTAL_STEPS = 14;
+const TOTAL_STEPS = 15;
 let current = 0; // 0 = welcome
 
 function showStep(n) {
@@ -1333,13 +1382,11 @@ function back(from) { showStep(from - 1); }
 document.addEventListener('change', function(e) {
   const input = e.target;
 
-  // Enable Next buttons for radio steps
-  const radioSteps = { q2: 'btn-2', q3: 'btn-3', q6: 'btn-6', mindset: 'btn-7', q9: 'btn-10' };
+  // Enable Next buttons for radio steps (updated IDs after shift)
+  const radioSteps = { q1: 'btn-2', q2: 'btn-3', q3: 'btn-4', q6: 'btn-7', mindset: 'btn-8', q9: 'btn-11' };
   if (input.type === 'radio') {
     const btnId = radioSteps[input.name];
     if (btnId) document.getElementById(btnId).disabled = false;
-    // Enable Q1
-    if (input.name === 'q1') document.getElementById('btn-1').disabled = false;
   }
 
   // Style selected options
@@ -1558,7 +1605,7 @@ function collectAnswers() {
   const level = window._cachedLevel !== undefined ? window._cachedLevel : scoreToLevel(score);
 
   return {
-    refId:          refData.id    || '',
+    refId:          refData.id    || window._sessionId,
     name:           document.getElementById('contact-name').value.trim(),
     email:          email,
     role:           get('q1'),
@@ -1587,29 +1634,29 @@ function collectAnswers() {
 // SUBMIT
 // ══════════════════════════════════════
 function submitSurvey() {
-  // Validate contact
-  const name  = document.getElementById('contact-name').value.trim();
+  // Validate email
   const email = document.getElementById('contact-email').value.trim();
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  if (!name || !emailOk) {
+  if (!emailOk) {
     document.getElementById('contact-error').classList.remove('hidden');
     return;
   }
   document.getElementById('contact-error').classList.add('hidden');
 
   // Hide step, show submitting
-  document.getElementById('step-14').style.display = 'none';
+  document.getElementById('step-15').style.display = 'none';
   document.getElementById('submitting').style.display = 'block';
   document.getElementById('progressLabel').textContent = '';
 
   const data = collectAnswers();
 
-  // Fire webhook in background — don't wait for it, redirect immediately
+  // Post directly to Google Apps Script — no Make required
+  // mode: no-cors avoids preflight; we don't need the response (refCode is computed client-side)
   fetch(APPS_SCRIPT_URL, {
     method: 'POST',
-    body: JSON.stringify(data),
-    headers: { 'Content-Type': 'application/json' }
+    mode: 'no-cors',
+    body: JSON.stringify(data)
   }).catch(e => console.warn('Submission error:', e));
 
   // Redirect to results page — pass level, name, role, and their referral code
